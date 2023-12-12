@@ -2,7 +2,7 @@ import React from 'react'
 import { TbSocial } from 'react-icons/tb';
 import CustomBtn from '../utils/CustomBtn';
 import { IoMdNotificationsOutline, IoMdNotifications } from "react-icons/io";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoHomeOutline, IoHome } from "react-icons/io5";
 import { MdOutlineGroup, MdGroup } from "react-icons/md";
 import { useMediaQuery } from '@mui/material';
@@ -10,6 +10,7 @@ import CustomDrawer from '../utils/CustomDrawer';
 
 const TopBar = ({ setTab, tab }) => {
     const isMd = useMediaQuery('(min-width:770px)');
+    const navigate = useNavigate();
     return (
         <div className='sticky top-0 flex w-full bg-[#25293c] items-center justify-between py-3 md:py-6 px-4 rounded-b-xl'>
             <Link to="/" replace>
@@ -57,7 +58,7 @@ const TopBar = ({ setTab, tab }) => {
                                 styles='text-sm text-ascent-1 px-4 md:px-6 py-1 md:py-2 border border-[#666] rounded-full hover:border-red-600 hover:text-red-600'
                                 onClick={() => {
                                     window.localStorage.removeItem("user");
-                                    window.location.replace("/login");
+                                    navigate("/login");
                                 }}
                             />
                         ) : (
