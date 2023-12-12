@@ -64,7 +64,6 @@ export const deletePost = async (req, res) => {
             _id: req.body.postId,
         });
 
-
         if (deletePost) {
             await Post.findByIdAndDelete(req.body.postId);
 

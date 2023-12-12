@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendVerifyEmail = (data) => {
     const token = createJWT(data, "1h");
-    const link = `http://localhost:${process.env.PORT}/users/verify/${token}`;
+    const link = `https://social-media-backend-qp9n.onrender.com/users/verify/${token}`;
 
     const mailOptions = {
         from: process.env.ADMIN_EMAIL,
