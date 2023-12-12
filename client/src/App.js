@@ -46,8 +46,8 @@ function App() {
     <div className={`w-full min-h-[100vh] text-white bg-black`}>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route path='' element={<Home />} />
-          <Route path='/profile/:id?' element={<Profile />} />
+          <Route index element={<Home />} />
+          <Route path='profile/:id?' element={<Profile />} />
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
