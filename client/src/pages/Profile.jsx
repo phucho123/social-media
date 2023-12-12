@@ -1,18 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { avatar } from '../assets'
 import PostCard from '../components/post/PostCard'
 import CreatePost from '../components/post/CreatePost'
 import { CustomBtn } from '../components'
 import { useSelector } from 'react-redux'
+import { Button } from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
-    const posts = useSelector((state) => state.post.posts);
+    const user = JSON.parse(window.localStorage.getItem("user")).user;
+    const posts = useSelector((state) => state.post.posts).filter((post) => post.userId._id == user._id);
+    const navigate = useNavigate();
     return (
         <div>
             <div className='w-full flex justify-center flex-col items-center'>
                 <div className='w-full lg:w-2/3 h-[100%]'>
                     <div className='w-full h-[32vh] rounded-b-lg text-red-400 overflow-hidden flex justify-center'>
-                        <img src={`${process.env.REACT_APP_BACKEND_BASE_URL}/assets/avatar.png`} alt='404'
+                        <Button style={{ position: "absolute", left: 10, top: 10, border: "2px solid blue", borderRadius: "25px" }}
+                            onClick={() => {
+                                navigate("/");
+                            }}>
+                            <ArrowBackIcon />
+                        </Button>
+                        <img src={`https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg?size=626&ext=jpg&ga=GA1.1.1222169770.1702339200&semt=ais`} alt='404'
                             className="h-[100%] rounded-lg w-full" />
                     </div>
                     <div className='w-full flex justify-center p-2 mt-[-10vh]'>
@@ -20,7 +31,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div>
-                    <p className='font-bold text-lg font-sans mb-4 z-20'>Lionel Messi</p>
+                    <p className='font-bold text-lg font-sans mb-4 z-20'>{user.firstName + " " + user.lastName}</p>
                 </div>
                 <div className='mb-8' >
                     <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900"} />

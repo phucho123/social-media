@@ -86,9 +86,9 @@ const PostCard = ({ postInfo }) => {
                 </div>
             )}
             <div className='flex justify-center'>
-                <img src={imageUrl} alt="404"
+                {imageUrl ? <img src={imageUrl} alt="404"
                     className='max-w-full min-w-full rounded-lg'
-                />
+                /> : <div></div>}
             </div>
 
             <div className='flex justify-between mt-5 px-10'>

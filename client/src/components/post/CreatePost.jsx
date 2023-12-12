@@ -19,7 +19,8 @@ const CreatePost = () => {
     const {
         register,
         formState: { errors },
-        handleSubmit
+        handleSubmit,
+        setValue
     } = useForm(({
         mode: "onChange"
     }))
@@ -107,7 +108,9 @@ const CreatePost = () => {
     const onSubmit = async (data) => {
         await handlePost(data.description);
         setImage(null);
+        setValue("description", "");
     }
+
 
     return (
         <form className='w-full rounded-xl bg-[#25293c] p-5 flex flex-col gap-2' onSubmit={handleSubmit(onSubmit)}>

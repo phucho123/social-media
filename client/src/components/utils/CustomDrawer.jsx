@@ -10,8 +10,10 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
 export default function CustomDrawer() {
+    const navigate = useNavigate();
     const [state, setState] = React.useState({
         top: false,
         left: false,
@@ -37,7 +39,7 @@ export default function CustomDrawer() {
             <List>
                 <ListItem key={"1"} disablePadding >
                     <ListItemButton onClick={() => {
-                        window.location.assign("/profile/fd")
+                        navigate("/profile");
                     }}>
                         <ListItemIcon>
                             <AccountBoxIcon style={{ color: "blue", fontSize: "2rem" }} />
@@ -46,7 +48,10 @@ export default function CustomDrawer() {
                     </ListItemButton>
                 </ListItem>
                 <ListItem key={"2"} disablePadding>
-                    <ListItemButton>
+                    <ListItemButton onClick={() => {
+                        window.localStorage.removeItem("user");
+                        navigate("/login");
+                    }}>
                         <ListItemIcon>
                             <LogoutIcon style={{ color: "red", fontSize: "2rem" }} />
                         </ListItemIcon>

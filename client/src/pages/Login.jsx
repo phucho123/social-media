@@ -80,7 +80,7 @@ const Login = () => {
                                 errors={errors.password ? errors.password?.message : ""}
                             />
                             <span className='text-sm text-right text-blue-600'>Forgot your password?</span>
-                            {isSubmiting ? <Loading />
+                            {isSubmiting ? <Loading size={8} />
                                 : <CustomBtn type={"submit"} label={'Login'} styles={
                                     'inline-flex justify-center rounded-md bg-[#1d67a8] px-8 py-3 text-sm font-medium text-white outline-none mt-2 lg:mt-6'
                                 } />
