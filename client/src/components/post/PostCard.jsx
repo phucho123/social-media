@@ -15,11 +15,13 @@ import LoadingFullScreen from '../utils/LoadingFullScreen';
 const PostCard = ({ postInfo }) => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { _id, description, imageUrl, userId, createdAt, likes } = postInfo;
+    console.log(postInfo);
     const fullName = userId.firstName + " " + userId.lastName;
     const [viewMore, setViewMore] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const liked = (likes.indexOf(user.user._id) != -1)
+    const [liking, setLiking] = useState(false);
 
     const showAlert = () => {
         confirmAlert({
@@ -44,8 +46,9 @@ const PostCard = ({ postInfo }) => {
     };
 
     const handleLikePost = async () => {
+        if (liking) return;
         try {
-
+            setLiking(true);
             const res = await apiRequest({
                 url: "/posts/like",
                 data: {
@@ -60,14 +63,19 @@ const PostCard = ({ postInfo }) => {
             } else {
                 console.log(res.data);
             }
+            setLiking(false);
 
         } catch (err) {
             console.log(err);
+            setLiking(false);
         }
     }
 
     const handleUnlikePost = async () => {
+        if (liking) return
         try {
+
+            setLiking(true);
 
             const res = await apiRequest({
                 url: "/posts/unlike",
@@ -84,9 +92,11 @@ const PostCard = ({ postInfo }) => {
             } else {
                 console.log(res.data);
             }
+            setLiking(false);
 
         } catch (err) {
             console.log(err);
+            setLiking(false);
         }
     }
 

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { apiRequest } from "./utils/api";
 import { setPost } from "./redux/reducer/postSlice";
 import LoadingFullScreen from "./components/utils/LoadingFullScreen";
+import CommentModal from "./components/utils/modals/CommentModal";
 
 
 const Layout = () => {
@@ -51,6 +52,7 @@ function App() {
       {
         isLoadingFullScreen && <LoadingFullScreen />
       }
+      {/* <CommentModal /> */}
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout />}>
