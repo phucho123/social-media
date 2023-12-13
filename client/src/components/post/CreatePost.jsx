@@ -10,6 +10,7 @@ import { apiRequest } from '../../utils/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPost } from '../../redux/reducer/postSlice';
 import { useForm } from 'react-hook-form';
+import { loadingFullScreen } from '../../redux/reducer/loadingSlice';
 
 
 const CreatePost = () => {
@@ -106,7 +107,9 @@ const CreatePost = () => {
     // }
 
     const onSubmit = async (data) => {
+        dispatch(loadingFullScreen(true));
         await handlePost(data.description);
+        dispatch(loadingFullScreen(false));
         setImage(null);
         setValue("description", "");
     }

@@ -10,7 +10,7 @@ export const apiRequest = async ({ url, token, data, method }) => {
     try {
         const res = await api(url, {
             method: method || "GET",
-            data: data,
+            data,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: token ? `Bearer ${token}` : ""

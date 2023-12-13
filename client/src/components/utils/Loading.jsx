@@ -1,11 +1,10 @@
 import React from 'react'
 
-const Loading = ({ size }) => {
-    const sizeLoading = size ? size : 8;
+const Loading = () => {
     return (
-        <div className='flex justify-center items-center text-blue-600'>
+        <div className='flex justify-center items-center text-blue-600 opacity-100 z-[4000]'>
             <div
-                className={`inline-block h-${sizeLoading} w-${sizeLoading} animate-spin rounded-full border-${sizeLoading / 2} border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]`}
+                className={`inline-block h-16 w-16 animate-spin rounded-full border-8 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]`}
                 role="status">
             </div>
         </div>

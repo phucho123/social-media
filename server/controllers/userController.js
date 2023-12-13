@@ -45,3 +45,20 @@ export const getUser = async (req, res) => {
         res.status(500).json(err);
     }
 }
+
+export const getUserById = async (req, res) => {
+    try {
+
+        const user = await User.findById(req.params.userId).select("-password");
+
+        res.status(200).json(user);
+
+        // if (user) {
+        //     res.status(200).json(user);
+        // } else {
+        //     res.status(400).json("User doesn't exist");
+        // }
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}

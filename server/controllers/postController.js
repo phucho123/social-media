@@ -26,7 +26,7 @@ export const getPosts = async (req, res) => {
         const post = await Post.find().populate({
             path: "userId",
             select: "firstName lastName profileUrl -password",
-        });
+        }).sort({ createdAt: -1 });
 
         res.status(200).json(post);
     } catch (err) {
@@ -34,21 +34,22 @@ export const getPosts = async (req, res) => {
     }
 }
 
-// export const updatePost = async (req,res) =>{
+// export const updatePost = async (req, res) => {
 //     try {
 
-//         const deletePost = await Post.findOne({
-//             userId: req.body.userId,
-//             _id: req.body.postId,
-//         });
+//         const updatePost = await Post.findByIdAndUpdate(req.body.postId, {
+//             $push: {
+//                 likes: req.body.userId
+//             }
+//         }, {
+//             new: true
+//         })
 
+//         if (updatePost) {
 
-//         if (deletePost) {
-//             await Post.findByIdAndDelete(req.body.postId);
-
-//             res.status(200).json("Update post successfully");
+//             res.status(200).json(updatePost);
 //         } else {
-//             res.status(400).json("You can't delete this post");
+//             res.status(400).json("You can't update this post");
 //         }
 
 //     } catch (err) {
@@ -77,3 +78,49 @@ export const deletePost = async (req, res) => {
     }
 }
 
+export const likePost = async (req, res) => {
+    try {
+
+        const likedPost = await Post.findByIdAndUpdate(req.body.postId, {
+            $push: {
+                likes: req.body.userId,
+            },
+        }, {
+            new: true
+        });
+
+        if (likedPost) {
+            res.status(200).json(likedPost);
+        } else {
+            res.status(400).json("You can't like this post");
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}
+
+
+export const unlikePost = async (req, res) => {
+    try {
+
+        const unlikedPost = await Post.findByIdAndUpdate(req.body.postId, {
+            $pull: {
+                likes: req.body.userId,
+            },
+        }, {
+            new: true
+        });
+
+        if (unlikedPost) {
+            res.status(200).json(unlikedPost);
+        } else {
+            res.status(400).json("You can't unlike this post");
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}

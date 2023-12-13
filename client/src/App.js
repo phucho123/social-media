@@ -3,10 +3,11 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { apiRequest } from "./utils/api";
 import { setPost } from "./redux/reducer/postSlice";
+import LoadingFullScreen from "./components/utils/LoadingFullScreen";
 
 
 const Layout = () => {
@@ -20,6 +21,7 @@ const Layout = () => {
     const fetchPosts = async () => {
       try {
 
+
         const res = await apiRequest({
           url: "/posts/get-posts",
           method: "GET"
@@ -28,6 +30,7 @@ const Layout = () => {
         // console.log(res.data);
 
         if (res.status === 200) dispatch(setPost(res.data));
+
 
       } catch (err) {
         console.log(err);
@@ -42,13 +45,17 @@ const Layout = () => {
 }
 
 function App() {
+  const isLoadingFullScreen = useSelector((state) => state.loading.fullScreen);
   return (
     <div className={`w-full min-h-[100vh] text-white bg-black`}>
+      {
+        isLoadingFullScreen && <LoadingFullScreen />
+      }
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path='profile' element={<Profile />} />
+            <Route path='profile/:id' element={<Profile />} />
           </Route>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />

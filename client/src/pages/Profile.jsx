@@ -1,19 +1,50 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { avatar } from '../assets'
-import PostCard from '../components/post/PostCard'
 import CreatePost from '../components/post/CreatePost'
 import { CustomBtn } from '../components'
 import { useSelector } from 'react-redux'
 import { Button } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { apiRequest } from '../utils/api'
+import Loading from '../components/utils/Loading'
+import PostCard from '../components/post/PostCard'
 
 const Profile = () => {
-    const user = JSON.parse(window.localStorage.getItem("user")).user;
-    const posts = useSelector((state) => state.post.posts).filter((post) => post.userId._id == user._id);
+    const userStorage = JSON.parse(window.localStorage.getItem("user"));
+    const [user, setUser] = useState(null);
+    const { id } = useParams();
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await apiRequest({
+                    method: "GET",
+                    url: `/users/get-by-id/${id}`,
+                })
+
+                if (res.status == 200) {
+                    setUser(res.data);
+                    console.log(res.data);
+                } else {
+                    console.log(res);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+
+        }
+
+        fetchData();
+
+    }, [id])
+
+
+    const posts = useSelector((state) => state.post.posts).filter((post) => {
+        if (user) return post.userId._id == user._id
+    });
     const navigate = useNavigate();
     return (
-        <div>
+        user ? <div>
             <div className='w-full flex justify-center flex-col items-center'>
                 <div className='w-full lg:w-2/3 h-[100%]'>
                     <div className='w-full h-[32vh] rounded-b-lg text-red-400 overflow-hidden flex justify-center'>
@@ -34,7 +65,7 @@ const Profile = () => {
                     <p className='font-bold text-lg font-sans mb-4 z-20'>{user.firstName + " " + user.lastName}</p>
                 </div>
                 <div className='mb-8' >
-                    <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900"} />
+                    {userStorage.user._id != id && <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900"} />}
                 </div>
                 <div className='w-full lg:w-2/3 flex gap-8 justify-center'>
                     <div className='w-full sm:w-2/3 flex flex-col gap-8 px-2'>
@@ -48,7 +79,7 @@ const Profile = () => {
                 </div>
 
             </div>
-        </div>
+        </div> : <Loading />
     )
 }
 

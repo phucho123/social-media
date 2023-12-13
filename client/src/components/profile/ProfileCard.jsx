@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { avatar } from '../../assets'
 import { FaRegEdit, FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { BsBriefcase } from "react-icons/bs";
@@ -15,11 +15,11 @@ const ProfileCard = () => {
         <div className='w-full bg-[#25293c] rounded-xl pd-4 flex flex-col items-center px-5 py-5'>
             <div className='w-full border-b border-white border-opacity-20 pb-5 flex flex-col gap-5 mb-5'>
                 <div className='flex items-center justify-between'>
-                    <Link to="/profile" className='flex items-center gap-2'>
+                    <Link to={`/profile/${user._id}`} className='flex items-center gap-2'>
                         <img src={avatar} alt="404" className='object-cover w-14 h-14 rounded-full' />
                         <div>
                             <p className='text-lg font-semibold'>{username.length > 15 ? username.slice(0, 15) + "..." : username}</p>
-                            <span className='text-sm opacity-40'>Hacker</span>
+                            {/* <span className='text-sm opacity-40'>Hacker</span> */}
                         </div>
                     </Link>
                     <FaRegEdit size={22} className='text-blue-600 cursor-pointer' />
