@@ -5,7 +5,7 @@ import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { apiRequest } from '../../utils/api';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, likePost, setComments, toggleComments, unlikePost } from '../../redux/reducer/postSlice';
 import { confirmAlert } from "react-confirm-alert";
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingFullScreen from '../utils/LoadingFullScreen';
 
 const PostCard = ({ postInfo }) => {
-    const user = JSON.parse(window.localStorage.getItem("user"));
+    const user = useSelector(state => state.user.user);
     const { _id, description, imageUrl, userId, createdAt, likes, comments } = postInfo;
     const fullName = userId.firstName + " " + userId.lastName;
     const [viewMore, setViewMore] = useState(false);
@@ -53,15 +53,17 @@ const PostCard = ({ postInfo }) => {
             });
 
             if (res.status == 200) {
-                dispatch(setComments(res.data));
+                // dispatch(setComments(res.data));
+
+                dispatch(toggleComments({
+                    commentList: res.data,
+                    open: true,
+                    postId: _id,
+                }));
             }
         } catch (err) {
             console.log(err);
         }
-        dispatch(toggleComments({
-            open: true,
-            postId: _id,
-        }));
     }
 
     const handleLikePost = async () => {
@@ -183,7 +185,7 @@ const PostCard = ({ postInfo }) => {
                     <span>{likes.length}</span>
                 </div>
                 <div className='flex items-center gap-2'>
-                    <FaRegCommentAlt size={25} className='cursor-pointer' onClick={openComments} />
+                    <FaRegCommentAlt size={25} className='cursor-pointer' onClick={() => openComments()} />
                     <div>{comments.length}</div>
                 </div>
                 {
