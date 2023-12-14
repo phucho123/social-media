@@ -75,6 +75,7 @@ const CreatePost = () => {
     }
 
     const handlePost = async (description) => {
+        if (!description) return;
         const imageUrl = await handleUpload();
 
         try {

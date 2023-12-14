@@ -37,6 +37,7 @@ export default function CommentModal() {
     }))
 
     const handlOnClick = async (data) => {
+        if (!data.comment) return;
         dispatch(loadingFullScreen(true));
         try {
             const res = await apiRequest({

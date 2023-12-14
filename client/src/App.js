@@ -30,7 +30,6 @@ const Layout = () => {
 
         if (res.status === 200) dispatch(setPost(res.data));
 
-
       } catch (err) {
         console.log(err);
       }
