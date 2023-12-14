@@ -1,4 +1,5 @@
 import Post from "../models/PostModel.js";
+import Comment from "../models/CommentModel.js"
 
 export const createPost = async (req, res) => {
     try {
@@ -117,6 +118,53 @@ export const unlikePost = async (req, res) => {
             res.status(200).json(unlikedPost);
         } else {
             res.status(400).json("You can't unlike this post");
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}
+
+export const getComments = async (req, res) => {
+    try {
+        const comments = await Comment.find({ postId: req.params.postId });
+
+        if (comments) {
+            res.status(200).json(comments);
+        } else {
+            res.status(400).json("You can't get this post's comments");
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}
+
+export const createComment = async (req, res) => {
+    try {
+
+        const comment = await Comment.create({
+            from: req.body.from,
+            postId: req.body.postId,
+            userId: req.body.userId,
+            comment: req.body.comment,
+        });
+
+
+        if (comment) {
+            const post = await Post.findByIdAndUpdate(req.body.postId, {
+                $push: {
+                    comments: comment._id,
+                },
+            }, {
+                new: true
+            });
+            if (post) res.status(200).json(comment);
+            else res.status(400).json("You can't create comments");
+        } else {
+            res.status(400).json("You can't create comments");
         }
 
     } catch (err) {

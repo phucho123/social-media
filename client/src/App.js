@@ -21,8 +21,6 @@ const Layout = () => {
     }
     const fetchPosts = async () => {
       try {
-
-
         const res = await apiRequest({
           url: "/posts/get-posts",
           method: "GET"
@@ -52,7 +50,7 @@ function App() {
       {
         isLoadingFullScreen && <LoadingFullScreen />
       }
-      {/* <CommentModal /> */}
+      <CommentModal />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout />}>

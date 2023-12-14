@@ -6,7 +6,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { apiRequest } from '../../utils/api';
 import { useDispatch } from 'react-redux';
-import { deletePost, likePost, unlikePost } from '../../redux/reducer/postSlice';
+import { deletePost, likePost, setComments, toggleComments, unlikePost } from '../../redux/reducer/postSlice';
 import { confirmAlert } from "react-confirm-alert";
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +14,7 @@ import LoadingFullScreen from '../utils/LoadingFullScreen';
 
 const PostCard = ({ postInfo }) => {
     const user = JSON.parse(window.localStorage.getItem("user"));
-    const { _id, description, imageUrl, userId, createdAt, likes } = postInfo;
-    console.log(postInfo);
+    const { _id, description, imageUrl, userId, createdAt, likes, comments } = postInfo;
     const fullName = userId.firstName + " " + userId.lastName;
     const [viewMore, setViewMore] = useState(false);
     const dispatch = useDispatch();
@@ -44,6 +43,26 @@ const PostCard = ({ postInfo }) => {
             ]
         });
     };
+
+    const openComments = async () => {
+        try {
+            const res = await apiRequest({
+                url: `/posts/get-comments/${_id}`,
+                method: "GET",
+                token: user.token
+            });
+
+            if (res.status == 200) {
+                dispatch(setComments(res.data));
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        dispatch(toggleComments({
+            open: true,
+            postId: _id,
+        }));
+    }
 
     const handleLikePost = async () => {
         if (liking) return;
@@ -163,7 +182,10 @@ const PostCard = ({ postInfo }) => {
                     }
                     <span>{likes.length}</span>
                 </div>
-                <FaRegCommentAlt size={25} className='cursor-pointer' />
+                <div className='flex items-center gap-2'>
+                    <FaRegCommentAlt size={25} className='cursor-pointer' onClick={openComments} />
+                    <div>{comments.length}</div>
+                </div>
                 {
                     user.user._id == userId._id ? <MdDeleteOutline size={30} className='cursor-pointer text-red-600' onClick={() => showAlert()} /> : <div></div>
                 }
