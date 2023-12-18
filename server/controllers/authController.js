@@ -26,7 +26,7 @@ export const login = async (req, res) => {
         } else {
             const checkPassword = await compareHashString(req.body.password, user.password);
             if (checkPassword) {
-                const token = createJWT({ userId: user._id }, "1d");
+                const token = createJWT({ userId: user._id }, "30d");
                 user.password = null;
                 res.status(200).json({
                     token,

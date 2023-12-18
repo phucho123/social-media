@@ -11,8 +11,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function CustomDrawer() {
+    const user = useSelector(state => state.user.user);
     const navigate = useNavigate();
     const [state, setState] = React.useState({
         top: false,
@@ -39,7 +41,7 @@ export default function CustomDrawer() {
             <List>
                 <ListItem key={"1"} disablePadding >
                     <ListItemButton onClick={() => {
-                        navigate("/profile");
+                        navigate(`/profile/${user.user._id}`);
                     }}>
                         <ListItemIcon>
                             <AccountBoxIcon style={{ color: "blue", fontSize: "2rem" }} />
