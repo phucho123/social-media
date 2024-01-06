@@ -1,10 +1,6 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Comment from '../../comment/Comment';
-import { avatar } from '../../../assets';
 import TextInput from '../TextInput';
 import CustomBtn from '../CustomBtn';
 import { useForm } from 'react-hook-form';
@@ -12,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setComments, toggleComments } from '../../../redux/reducer/postSlice';
 import { apiRequest } from '../../../utils/api';
 import { loadingFullScreen } from '../../../redux/reducer/loadingSlice';
+import Loading from '../Loading';
 
 export default function CommentModal() {
     const user = JSON.parse(window.localStorage.getItem("user"));
@@ -74,9 +71,9 @@ export default function CommentModal() {
                         onClick={handleClose}>X</div>
                     <div className='h-[100%] w-[95%] flex flex-col items-center gap-2 overflow-y-auto no-scrollbar'>
                         {
-                            comments && comments.map(comment => (
+                            comments ? comments.map(comment => (
                                 <Comment key={comment._id} commentInfo={comment} />
-                            ))
+                            )) : <Loading />
                         }
                     </div>
                     <form className='w-full p-4 flex gap-2 items-center'
@@ -94,6 +91,7 @@ export default function CommentModal() {
                         />
                     </form>
                 </div>
+
 
             </Modal>
         </div>

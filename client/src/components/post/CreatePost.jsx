@@ -16,7 +16,16 @@ import { loadingFullScreen } from '../../redux/reducer/loadingSlice';
 const CreatePost = () => {
     const [image, setImage] = useState();
     const token = JSON.parse(localStorage.getItem('user'))?.token;
+    const user = useSelector(state => state.user.user.user);
     const dispatch = useDispatch();
+    const [avatarTransform, setAvatarTransform] = useState(0);
+    let avatarImage = new Image();
+    avatarImage.onload = () => {
+        if (avatarImage.height > avatarImage.width) setAvatarTransform(0);
+        else setAvatarTransform(1);
+    }
+    avatarImage.src = user.profileUrl;
+
     const {
         register,
         formState: { errors },
@@ -66,7 +75,7 @@ const CreatePost = () => {
     //     e.target.value = null;
     // }
 
-    const handleUpload = async () => {
+    const handleUploadToCloudinary = async () => {
         if (image) {
             const secure_url = await uploadImage(image);
             return secure_url;
@@ -76,7 +85,7 @@ const CreatePost = () => {
 
     const handlePost = async (description) => {
         if (!description) return;
-        const imageUrl = await handleUpload();
+        const imageUrl = await handleUploadToCloudinary();
 
         try {
 
@@ -100,13 +109,6 @@ const CreatePost = () => {
 
     }
 
-    // const handleDeleteImage = async () => {
-    //     if (imageToDelete) {
-    //         console.log(imageToDelete.public_id);
-    //         deleteImage(imageToDelete);
-    //     }
-    // }
-
     const onSubmit = async (data) => {
         dispatch(loadingFullScreen(true));
         await handlePost(data.description);
@@ -118,8 +120,10 @@ const CreatePost = () => {
 
     return (
         <form className='w-full rounded-xl bg-[#25293c] p-5 flex flex-col gap-2' onSubmit={handleSubmit(onSubmit)}>
-            <div className='w-full flex gap-2 border-b border-white border-opacity-20 pb-4'>
-                <img src={avatar} alt="404" className='object-cover w-14 h-14 rounded-full' />
+            <div className='w-full flex gap-2 border-b border-white border-opacity-20 pb-4 items-center justify-center'>
+                <div className='rounded-full aspect-square w-[10%] bg-black flex justify-center items-center overflow-hidden'>
+                    <img src={user.profileUrl ? user.profileUrl : avatar} alt="404" className={`rounded-full ${avatarTransform ? 'h-full' : 'w-full'}`} />
+                </div>
                 <TextInput
                     type={"text"}
                     name={"description"}

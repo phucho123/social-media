@@ -7,10 +7,11 @@ import { FaRegCommentAlt } from "react-icons/fa";
 import { apiRequest } from '../../utils/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, likePost, setComments, toggleComments, unlikePost } from '../../redux/reducer/postSlice';
+import { toggleImageModal } from '../../redux/reducer/modalSlice';
 import { confirmAlert } from "react-confirm-alert";
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useNavigate } from 'react-router-dom';
-import LoadingFullScreen from '../utils/LoadingFullScreen';
+import { loadingFullScreen } from '../../redux/reducer/loadingSlice';
 
 const PostCard = ({ postInfo }) => {
     const user = useSelector(state => state.user.user);
@@ -21,6 +22,8 @@ const PostCard = ({ postInfo }) => {
     const navigate = useNavigate();
     const liked = (likes.indexOf(user.user._id) != -1)
     const [liking, setLiking] = useState(false);
+    const curCommentPostId = useSelector((state) => state.post.comments.postId);
+
 
     const showAlert = () => {
         confirmAlert({
@@ -30,7 +33,9 @@ const PostCard = ({ postInfo }) => {
                 {
                     label: 'Yes',
                     onClick: async () => {
+                        dispatch(loadingFullScreen(true));
                         await handleDelete();
+                        dispatch(loadingFullScreen(false));
                     }
                 },
                 {
@@ -45,7 +50,17 @@ const PostCard = ({ postInfo }) => {
     };
 
     const openComments = async () => {
+        if (curCommentPostId == _id) {
+            dispatch(toggleComments({
+                open: true,
+            }));
+            return;
+        }
         try {
+            dispatch(toggleComments({
+                open: true,
+                commentList: []
+            }));
             const res = await apiRequest({
                 url: `/posts/get-comments/${_id}`,
                 method: "GET",
@@ -53,8 +68,6 @@ const PostCard = ({ postInfo }) => {
             });
 
             if (res.status == 200) {
-                // dispatch(setComments(res.data));
-
                 dispatch(toggleComments({
                     commentList: res.data,
                     open: true,
@@ -124,7 +137,7 @@ const PostCard = ({ postInfo }) => {
 
     const handleDelete = async () => {
         try {
-            dispatch(LoadingFullScreen(true));
+
             const res = await apiRequest({
                 url: "/posts/delete",
                 data: {
@@ -137,7 +150,6 @@ const PostCard = ({ postInfo }) => {
             if (res.status == 200) {
                 dispatch(deletePost(_id));
             }
-            dispatch(LoadingFullScreen(false));
 
         } catch (err) {
             console.log(err);
@@ -149,7 +161,7 @@ const PostCard = ({ postInfo }) => {
                 <div className='flex gap-2 items-center cursor-pointer' onClick={() => {
                     navigate(`/profile/${userId._id}`);
                 }}>
-                    <img src={avatar} alt="404" className='object-cover w-14 h-14 rounded-full' />
+                    <img src={postInfo.userId.profileUrl ? postInfo.userId.profileUrl : avatar} alt="404" className='object-cover w-14 h-14 rounded-full' />
                     <div>
                         <p className='text-lg font-semibold'>{fullName}</p>
                         <p className='text-white text-opacity-60'>{moment(createdAt).fromNow()}</p>
@@ -171,9 +183,16 @@ const PostCard = ({ postInfo }) => {
                 </div>
             )}
             <div className='flex justify-center'>
-                {imageUrl ? <img src={imageUrl} alt="404"
-                    className='max-w-full min-w-full rounded-lg'
-                /> : <div></div>}
+                {imageUrl ?
+                    <div className='w-full max-h-[500px] overflow-y-hidden hover:cursor-pointer'
+                        onClick={() => dispatch(toggleImageModal({
+                            open: true,
+                            imageUrl
+                        }))}>
+                        <img src={imageUrl} alt="404"
+                            className='w-full rounded-lg'
+                        />
+                    </div> : <div></div>}
             </div>
 
             <div className='flex justify-between mt-5 px-10 items-center'>

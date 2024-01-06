@@ -3,7 +3,6 @@ import { TopBar } from '../components'
 import HomeTab from '../components/home/HomeTab'
 import FriendTab from '../components/home/FriendTab'
 import NotificationTab from '../components/home/NotificationTab'
-import Loading from '../components/utils/Loading'
 
 
 const Home = () => {

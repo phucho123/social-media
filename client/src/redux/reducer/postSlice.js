@@ -51,8 +51,8 @@ const postSlice = createSlice({
         },
         toggleComments: (state, action) => {
             state.comments.openComments = action.payload.open;
-            state.comments.postId = action.payload.postId;
-            state.comments.commentList = action.payload.commentList;
+            if (action.payload.postId) state.comments.postId = action.payload.postId;
+            if (action.payload.commentList || action.payload.commentList == []) state.comments.commentList = action.payload.commentList;
         },
         setComments: (state, action) => {
             state.comments.commentList = action.payload;

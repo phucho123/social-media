@@ -9,6 +9,7 @@ import { api, apiRequest } from "./utils/api";
 import { setPost } from "./redux/reducer/postSlice";
 import LoadingFullScreen from "./components/utils/LoadingFullScreen";
 import CommentModal from "./components/utils/modals/CommentModal";
+import ImageModal from "./components/utils/modals/ImageModal";
 
 
 const Layout = () => {
@@ -64,6 +65,7 @@ function App() {
       {
         user && <CommentModal />
       }
+      <ImageModal />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout />}>

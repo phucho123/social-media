@@ -1,5 +1,12 @@
 import Post from "../models/PostModel.js";
 import Comment from "../models/CommentModel.js"
+import { v2 as cloudinary } from "cloudinary"
+
+cloudinary.config({
+    cloud_name: 'dzgxwz6xj',
+    api_key: '142999761741237',
+    api_secret: 'LLvJbPGMthVpY-VRJ38GvMMSmq8'
+});
 
 export const createPost = async (req, res) => {
     try {
@@ -61,13 +68,28 @@ export const getPosts = async (req, res) => {
 export const deletePost = async (req, res) => {
     try {
 
+
+
         const deletePost = await Post.findOne({
             userId: req.body.userId,
             _id: req.body.postId,
         });
 
         if (deletePost) {
+            const imageUrl = deletePost.imageUrl;
             await Post.findByIdAndDelete(req.body.postId);
+
+            if (imageUrl) {
+                const imageUrlArray = imageUrl.split('/');
+                console.log(imageUrlArray);
+                const imageName = imageUrlArray[imageUrlArray.length - 1].split('.')[0];
+                if (imageName) {
+                    cloudinary.uploader.destroy(imageName, (err, res) => {
+                        console.log("deleted image");
+                    });
+                }
+                console.log(imageName);
+            }
 
             res.status(200).json("Delete post successfully");
         } else {
@@ -128,7 +150,10 @@ export const unlikePost = async (req, res) => {
 
 export const getComments = async (req, res) => {
     try {
-        const comments = await Comment.find({ postId: req.params.postId });
+        const comments = await Comment.find({ postId: req.params.postId }).sort({ createdAt: -1 }).populate({
+            path: "userId",
+            select: "profileUrl",
+        });
 
         if (comments) {
             res.status(200).json(comments);

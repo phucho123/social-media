@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
         select: true,
     },
     location: { type: String },
-    profileUrl: { type: String },
+    profileUrl: { type: String, default: "" },
     profession: { type: String },
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     views: [{ type: String }],

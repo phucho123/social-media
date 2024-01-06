@@ -16,7 +16,7 @@ const ProfileCard = () => {
             <div className='w-full border-b border-white border-opacity-20 pb-5 flex flex-col gap-5 mb-5'>
                 <div className='flex items-center justify-between'>
                     <Link to={`/profile/${user._id}`} className='flex items-center gap-2'>
-                        <img src={avatar} alt="404" className='object-cover w-14 h-14 rounded-full' />
+                        <img src={user.profileUrl} alt="404" className='object-cover w-14 h-14 rounded-full' />
                         <div>
                             <p className='text-lg font-semibold'>{username.length > 15 ? username.slice(0, 15) + "..." : username}</p>
                             {/* <span className='text-sm opacity-40'>Hacker</span> */}
