@@ -95,7 +95,10 @@ export const changeAvatar = async (req, res) => {
             $set: {
                 profileUrl: req.body.newAvatarUrl
             }
-        }, { new: true }).select("-password");
+        }, { new: true }).populate({
+            path: 'friendRequests friends',
+            select: '-password firstName lastName profileUrl'
+        }).select("-password");
 
         if (newUser) {
             console.log(newUser)

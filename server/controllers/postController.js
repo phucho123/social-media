@@ -20,7 +20,7 @@ export const createPost = async (req, res) => {
         const posts = await Post.find().populate({
             path: "userId",
             select: "firstName lastName profileUrl -password",
-        });
+        }).sort({ createdAt: -1 });
 
         res.status(200).json(posts);
 
