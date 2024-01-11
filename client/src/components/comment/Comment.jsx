@@ -13,7 +13,7 @@ const Comment = ({ commentInfo }) => {
 
     return (
         <div className='w-full'>
-            <div className='flex gap-2 items-center text-white '>
+            <div className='flex gap-2 items-center text-white'  >
                 <div className='rounded-full aspect-square w-[6%] bg-black flex justify-center items-center overflow-hidden'>
                     <img src={commentInfo.userId.profileUrl ? commentInfo.userId.profileUrl : avatar} alt="404" className={`rounded-full ${avatarTransform ? 'h-full' : 'w-full'}`} />
                 </div>

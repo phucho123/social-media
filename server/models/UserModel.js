@@ -23,6 +23,8 @@ const UserSchema = new mongoose.Schema({
     profileUrl: { type: String, default: "" },
     profession: { type: String },
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    friendRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    friendRequestings: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     views: [{ type: String }],
 }, { timestamps: true });
 

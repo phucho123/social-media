@@ -18,7 +18,6 @@ const userSlice = createSlice({
             userUpdated.user = action.payload;
             window.localStorage.setItem("user", JSON.stringify(userUpdated));
             state.user.user = action.payload;
-            console.log(action.payload);
         },
         register: (state, action) => {
 

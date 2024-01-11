@@ -8,11 +8,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { apiRequest } from '../utils/api'
 import Loading from '../components/utils/Loading'
 import PostCard from '../components/post/PostCard'
-import { Button, Typography, Popover } from '@mui/material'
+import { Button, Typography, Popover, Chip } from '@mui/material'
 import { toggleImageModal } from '../redux/reducer/modalSlice'
 import { uploadImage } from '../utils'
 import { updateUser } from '../redux/reducer/userSlice'
 import { loadingFullScreen } from '../redux/reducer/loadingSlice'
+import { MdDone } from 'react-icons/md'
+import { setPost } from '../redux/reducer/postSlice'
 
 const Profile = () => {
     const userStorage = useSelector(state => state.user.user);
@@ -28,19 +30,14 @@ const Profile = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
+
     const handleUploadAvatar = (e) => {
         if (e.target.files.length === 0) return;
-        // const image = new Image();
-        // image.onload = () => {
-        //     if (image.height > image.width) setAvatarTransform(0);
-        //     else setAvatarTransform(1);
-        // }
         const file = e.target.files[0];
         file.preview = URL.createObjectURL(file);
         console.log(file.preview);
         setAvatar(file);
         e.target.value = null;
-        // image.src = file.preview;
         avatarImage.src = file.preview;
         handleClosePopover();
         setOpenConfirmChangeAvatar(true);
@@ -60,8 +57,14 @@ const Profile = () => {
                 token: userStorage.token
             });
 
-            if (res.status === 200) {
+            const resPosts = await apiRequest({
+                url: "/posts/get-posts",
+                method: "GET"
+            });
+
+            if (res.status === 200 && resPosts.status == 200) {
                 dispatch(updateUser(res.data));
+                dispatch(setPost(resPosts.data));
             }
             dispatch(loadingFullScreen(false));
 
@@ -75,16 +78,15 @@ const Profile = () => {
         }
     }, [profileAvatar]);
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    ////Popover/////
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const handleOpenPopover = (event) => {
         setAnchorEl(event.currentTarget);
     };
-
     const handleClosePopover = () => {
         setAnchorEl(null);
     };
-
     const openPopover = Boolean(anchorEl);
 
     useEffect(() => {
@@ -119,6 +121,45 @@ const Profile = () => {
 
     }, [id]);
 
+    const handleSendFriendRequest = async () => {
+        try {
+            const res = await apiRequest({
+                url: "/users/send-friend-request",
+                method: "POST",
+                data: {
+                    to: id
+                },
+                token: userStorage.token,
+            });
+            if (res.status == 200) {
+                dispatch(updateUser(res.data));
+            }
+
+        } catch (err) {
+            console.log("fdsfds");
+            console.log(err);
+        }
+    }
+
+    const handleDeleteFriendRequest = async () => {
+        try {
+            const res = await apiRequest({
+                url: "/users/delete-friend-request",
+                method: "POST",
+                data: {
+                    to: id,
+                    from: userStorage.user._id
+                },
+                token: userStorage.token,
+            });
+            if (res.status == 200) {
+                dispatch(updateUser(res.data));
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     const posts = useSelector((state) => state.post.posts).filter((post) => {
         if (user) return post.userId._id == user._id
@@ -192,7 +233,15 @@ const Profile = () => {
                     <p className='font-bold text-lg font-sans mb-4 z-20'>{user.firstName + " " + user.lastName}</p>
                 </div>
                 <div className='mb-8' >
-                    {userStorage.user._id != id && <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900"} />}
+                    {userStorage.user._id != id && !userStorage.user.friendRequestings?.includes(id) && !userStorage.user.friends?.some(friend => friend._id == id) && <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900"} onClick={handleSendFriendRequest} />}
+                    {userStorage.user._id != id && userStorage.user.friendRequestings?.includes(id) && <div>
+                        <Button color='error' variant="contained" onClick={handleDeleteFriendRequest} >Cancel Friend Request</Button>
+                    </div>}
+                    {userStorage.user._id != id && userStorage.user.friends?.some(friend => friend._id == id) && <Chip
+                        label="Friend"
+                        icon={<MdDone />}
+                        color="success"
+                    />}
                 </div>
                 <div className='w-full lg:w-2/3 flex gap-8 justify-center'>
                     <div className='w-full sm:w-2/3 flex flex-col gap-8 px-2'>

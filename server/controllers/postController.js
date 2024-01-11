@@ -152,7 +152,7 @@ export const getComments = async (req, res) => {
     try {
         const comments = await Comment.find({ postId: req.params.postId }).sort({ createdAt: -1 }).populate({
             path: "userId",
-            select: "profileUrl",
+            select: "profileUrl -password",
         });
 
         if (comments) {
@@ -186,7 +186,11 @@ export const createComment = async (req, res) => {
             }, {
                 new: true
             });
-            if (post) res.status(200).json(comment);
+            const res_comment = await Comment.findById(comment._id).populate({
+                path: "userId",
+                select: "profileUrl -password"
+            });
+            if (post) res.status(200).json(res_comment);
             else res.status(400).json("You can't create comments");
         } else {
             res.status(400).json("You can't create comments");

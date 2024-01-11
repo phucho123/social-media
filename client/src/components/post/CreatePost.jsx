@@ -121,7 +121,7 @@ const CreatePost = () => {
     return (
         <form className='w-full rounded-xl bg-[#25293c] p-5 flex flex-col gap-2' onSubmit={handleSubmit(onSubmit)}>
             <div className='w-full flex gap-2 border-b border-white border-opacity-20 pb-4 items-center justify-center'>
-                <div className='rounded-full aspect-square w-[10%] bg-black flex justify-center items-center overflow-hidden'>
+                <div className='rounded-full aspect-square w-14 bg-black flex justify-center items-center overflow-hidden'>
                     <img src={user.profileUrl ? user.profileUrl : avatar} alt="404" className={`rounded-full ${avatarTransform ? 'h-full' : 'w-full'}`} />
                 </div>
                 <TextInput

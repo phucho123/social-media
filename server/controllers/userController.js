@@ -42,7 +42,10 @@ export const verifyUserEmail = async (req, res) => {
 
 export const getUser = async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.body.userId }).select("-password");
+        const user = await User.findOne({ _id: req.body.userId }).select("-password").populate({
+            path: 'friendRequests friends',
+            select: '-password firstName lastName profileUrl'
+        });
 
         if (user) {
             res.status(200).json(user);
@@ -57,7 +60,10 @@ export const getUser = async (req, res) => {
 export const getUserById = async (req, res) => {
     try {
 
-        const user = await User.findById(req.params.userId).select("-password");
+        const user = await User.findById(req.params.userId).select("-password").populate({
+            path: 'friendRequests friends',
+            select: '-password'
+        });
 
         res.status(200).json(user);
 
@@ -97,6 +103,141 @@ export const changeAvatar = async (req, res) => {
         } else {
             res.status(400).json("You can't change avatar");
         }
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+export const sendFriendRequest = async (req, res) => {
+    try {
+        const toUser = await User.findByIdAndUpdate(req.body.to, {
+            $push: {
+                friendRequests: req.body.userId,
+            }
+        }, {
+            new: true
+        });
+
+        const sendUser = await User.findByIdAndUpdate(req.body.userId, {
+            $push: {
+                friendRequestings: req.body.to,
+            }
+        }, {
+            new: true
+        }).populate({
+            path: 'friendRequests friends',
+            select: '-password firstName lastName profileUrl'
+        }).select("-password");
+
+        if (toUser && sendUser) {
+            res.status(200).json(sendUser);
+        } else {
+            res.status(400).json("Send friend request Failed");
+        }
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+export const deleteFriendRequest = async (req, res) => {
+    try {
+        const toUser = await User.findByIdAndUpdate(req.body.to, {
+            $pull: {
+                friendRequests: req.body.from,
+            }
+        }, {
+            new: true
+        }).populate({
+            path: 'friendRequests friends',
+            select: '-password firstName lastName profileUrl'
+        }).select("-password");
+
+        const sendUser = await User.findByIdAndUpdate(req.body.from, {
+            $pull: {
+                friendRequestings: req.body.to,
+            }
+        }, {
+            new: true
+        }).populate({
+            path: 'friendRequests friends',
+            select: '-password firstName lastName profileUrl'
+        }).select("-password");
+
+        if (toUser && sendUser) {
+            if (req.body.userId == req.body.from) {
+                res.status(200).json(sendUser);
+            } else res.status(200).json(toUser);
+        } else {
+            res.status(400).json("Delete friend request Failed");
+        }
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+export const acceptFriendRequest = async (req, res) => {
+    try {
+        const toUser = await User.findByIdAndUpdate(req.body.to, {
+            $pull: {
+                friendRequests: req.body.from,
+            },
+            $push: {
+                friends: req.body.from
+            }
+        }, {
+            new: true
+        }).populate({
+            path: 'friendRequests friends',
+            select: '-password firstName lastName profileUrl'
+        }).select("-password");
+
+        const sendUser = await User.findByIdAndUpdate(req.body.from, {
+            $pull: {
+                friendRequestings: req.body.to,
+            },
+            $push: {
+                friends: req.body.to
+            }
+        }, {
+            new: true
+        }).populate({
+            path: 'friendRequests friends',
+            select: '-password firstName lastName profileUrl'
+        }).select("-password");
+
+        if (toUser && sendUser) {
+            if (req.body.userId == req.body.from) {
+                res.status(200).json(sendUser);
+            } else res.status(200).json(toUser);
+        } else {
+            res.status(400).json("Accept friend request Failed");
+        }
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+export const searchUser = async (req, res) => {
+    try {
+        const searchUser = await User.find({
+            $or: [
+                { lastName: { $regex: req.body.keyword, $options: "i" } },
+                { firstName: { $regex: req.body.keyword, $options: "i" } }
+            ]
+
+        });
+
+        if (searchUser) {
+
+            res.status(200).json(searchUser);
+
+        } else {
+            res.status(400).json("No user found");
+        }
+
     } catch (err) {
         res.status(500).json(err);
     }

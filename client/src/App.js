@@ -10,6 +10,7 @@ import { setPost } from "./redux/reducer/postSlice";
 import LoadingFullScreen from "./components/utils/LoadingFullScreen";
 import CommentModal from "./components/utils/modals/CommentModal";
 import ImageModal from "./components/utils/modals/ImageModal";
+import { updateUser } from "./redux/reducer/userSlice";
 
 
 const Layout = () => {
@@ -33,6 +34,9 @@ const Layout = () => {
           navigate("/login");
           return;
         }
+        dispatch(updateUser(
+          userVerifyToken.data
+        ));
         const res = await apiRequest({
           url: "/posts/get-posts",
           method: "GET"
@@ -47,7 +51,7 @@ const Layout = () => {
       }
     }
     fetchPosts();
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   return user?.token ? (
     <Outlet />

@@ -19,7 +19,10 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({ email: req.body.email }).populate({
+            path: "friendRequests",
+            select: "-password firstName lastName profileUrl"
+        });
 
         if (!user) {
             res.status(400).json("User doesn't exist");

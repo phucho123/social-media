@@ -48,7 +48,8 @@ export default function CommentModal() {
                 token: user.token
             })
 
-            const newCommentList = [...comments, res.data];
+            const newCommentList = [res.data, ...comments];
+            console.log(res.data);
             dispatch(setComments(newCommentList));
             dispatch(loadingFullScreen(false));
         } catch (err) {

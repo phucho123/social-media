@@ -1,10 +1,11 @@
 import React, { forwardRef } from 'react'
+import { FaSearch } from 'react-icons/fa'
 
 const TextInput = forwardRef(({
     name, type, label, labelStyle, placeholder, register, styles, errors
 }, ref) => {
     return (
-        <div className='w-full flex flex-col mt-2'>
+        <div className='w-full flex flex-col'>
             {label && (
                 <p className={`text-ascent-2 text-sm mb-2 ${labelStyle}`}>{label}</p>
             )}

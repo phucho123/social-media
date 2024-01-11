@@ -7,22 +7,26 @@ import { IoHomeOutline, IoHome } from "react-icons/io5";
 import { MdOutlineGroup, MdGroup } from "react-icons/md";
 import { useMediaQuery } from '@mui/material';
 import CustomDrawer from '../utils/CustomDrawer';
+import SearchBar from '../utils/SearchBar';
 
 const TopBar = ({ setTab, tab }) => {
     const isMd = useMediaQuery('(min-width:770px)');
     const navigate = useNavigate();
     return (
         <div className='sticky top-0 flex w-full bg-[#25293c] items-center justify-between py-3 md:py-6 px-4 rounded-b-xl'>
-            <Link to="/" replace>
+            {/* <Link to="/" replace>
                 <div className='flex gap-2 items-center'>
                     <div className='p-2 text-white rounded bg-blue-600 mt-0'>
                         <TbSocial />
                     </div>
                     <span className='hidden md:flex text-2xl font-semibold'>{process.env.REACT_APP_APP_NAME}</span>
                 </div>
-            </Link>
+            </Link> */}
+            <div className='w-[25%]'>
+                <SearchBar />
+            </div>
             <div className='flex flex-1 justify-center'>
-                <div className='w-full px-8 sm:w-2/3 md:px-0 md:w-1/2 lg:w-2/5 flex justify-between'>
+                <div className='w-full sm:w-2/3 flex justify-between'>
                     {
                         tab === "home" ? (
                             <IoHome size={30} className={`cursor-pointer text-blue-600`} />
@@ -49,7 +53,7 @@ const TopBar = ({ setTab, tab }) => {
 
                 </div>
             </div>
-            <div className='flex gap-4 items-center text-ascent-1 text-md md:text-x'>
+            <div className='w-[30%] flex gap-4 items-center text-ascent-1 text-md md:text-x justify-center'>
                 <div>
                     {
                         isMd ? (
