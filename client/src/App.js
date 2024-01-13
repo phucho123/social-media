@@ -11,6 +11,10 @@ import LoadingFullScreen from "./components/utils/LoadingFullScreen";
 import CommentModal from "./components/utils/modals/CommentModal";
 import ImageModal from "./components/utils/modals/ImageModal";
 import { updateUser } from "./redux/reducer/userSlice";
+import FriendTab from "./components/home/FriendTab";
+import NotificationTab from "./components/home/NotificationTab";
+import HomeTab from "./components/home/HomeTab";
+import UpdateProfileModal from "./components/utils/modals/UpdateProfileModal";
 
 
 const Layout = () => {
@@ -69,11 +73,18 @@ function App() {
       {
         user && <CommentModal />
       }
+      {
+        user && <UpdateProfileModal />
+      }
       <ImageModal />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route path='/' element={<Home />}>
+              <Route path="/" element={<HomeTab />} />
+              <Route path="friends" element={<FriendTab />} />
+              <Route path="notifications" element={<NotificationTab />} />
+            </Route>
             <Route path='profile/:id' element={<Profile />} />
           </Route>
           <Route path='/login' element={<Login />} />

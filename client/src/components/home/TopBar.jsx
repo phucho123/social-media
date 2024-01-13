@@ -31,7 +31,10 @@ const TopBar = ({ setTab, tab }) => {
                         tab === "home" ? (
                             <IoHome size={30} className={`cursor-pointer text-blue-600`} />
                         ) : (
-                            <IoHomeOutline size={30} className={`cursor-pointer`} onClick={() => setTab("home")} />
+                            <IoHomeOutline size={30} className={`cursor-pointer`} onClick={() => {
+                                setTab("home");
+                                navigate("/");
+                            }} />
                         )
                     }
 
@@ -39,7 +42,10 @@ const TopBar = ({ setTab, tab }) => {
                         tab === "friend" ? (
                             <MdGroup size={30} className={`cursor-pointer text-blue-600`} />
                         ) : (
-                            <MdOutlineGroup size={30} className={`cursor-pointer `} onClick={() => setTab("friend")} />
+                            <MdOutlineGroup size={30} className={`cursor-pointer `} onClick={() => {
+                                setTab("friend");
+                                navigate("friends");
+                            }} />
                         )
                     }
 
@@ -47,7 +53,10 @@ const TopBar = ({ setTab, tab }) => {
                         tab === "notification" ? (
                             <IoMdNotifications size={30} className={`cursor-pointer text-blue-600`} />
                         ) : (
-                            <IoMdNotificationsOutline size={30} className={`cursor-pointer`} onClick={() => setTab("notification")} />
+                            <IoMdNotificationsOutline size={30} className={`cursor-pointer`} onClick={() => {
+                                setTab("notification");
+                                navigate("notifications");
+                            }} />
                         )
                     }
 

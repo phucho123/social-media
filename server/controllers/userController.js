@@ -77,6 +77,33 @@ export const getUserById = async (req, res) => {
     }
 }
 
+export const updateUser = async (req, res) => {
+    try {
+
+        const user = await User.findByIdAndUpdate(req.body.userId, {
+            $set: {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                location: req.body.location,
+                profession: req.body.profession
+            }
+        }, {
+            new: true
+        }).select("-password").populate({
+            path: 'friendRequests friends',
+            select: '-password'
+        });
+
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(400).json("You can't update user info");
+        }
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
 export const changeAvatar = async (req, res) => {
     try {
         console.log(req.body.preAvatarUrl);

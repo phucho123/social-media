@@ -1,5 +1,5 @@
 import express from "express";
-import { acceptFriendRequest, changeAvatar, deleteFriendRequest, getUser, getUserById, searchUser, sendFriendRequest, verifyUserEmail } from "../controllers/userController.js";
+import { acceptFriendRequest, changeAvatar, deleteFriendRequest, getUser, getUserById, searchUser, sendFriendRequest, updateUser, verifyUserEmail } from "../controllers/userController.js";
 import { userAuth } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.post("/send-friend-request", userAuth, sendFriendRequest);
 router.post("/delete-friend-request", userAuth, deleteFriendRequest);
 router.post("/accept-friend-request", userAuth, acceptFriendRequest);
 router.post("/search-user", searchUser);
+router.post("/update-user", userAuth, updateUser);
 
 export default router;

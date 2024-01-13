@@ -11,6 +11,8 @@ const Comment = ({ commentInfo }) => {
     }
     avatarImage.src = commentInfo.userId.profileUrl;
 
+    console.log(commentInfo);
+
     return (
         <div className='w-full'>
             <div className='flex gap-2 items-center text-white'  >
@@ -19,7 +21,7 @@ const Comment = ({ commentInfo }) => {
                 </div>
 
                 <div>
-                    <div className='font-bold'>{commentInfo.from}</div>
+                    <div className='font-bold'>{commentInfo.userId.firstName + " " + commentInfo.userId.lastName}</div>
                     <div className='text-gray-300'>{moment(commentInfo.createdAt).fromNow()}</div>
                 </div>
             </div>

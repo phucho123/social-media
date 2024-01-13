@@ -5,6 +5,9 @@ const initialState = {
     imageModal: {
         open: false,
         imageUrl: "",
+    },
+    updateUserModal: {
+        open: false
     }
 }
 
@@ -17,6 +20,9 @@ const modalSlice = createSlice({
             if (action.payload.imageUrl) {
                 state.imageModal.imageUrl = action.payload.imageUrl;
             }
+        },
+        toggleUpdateUserModal: (state, action) => {
+            state.updateUserModal.open = action.payload.open;
         }
     }
 })
@@ -27,5 +33,11 @@ export default modalSlice;
 export const toggleImageModal = (data) => {
     return (dispatch, getState) => {
         dispatch(modalSlice.actions.toggleImageModal(data));
+    }
+}
+
+export const toggleUpdateUserModal = (data) => {
+    return (dispatch, getState) => {
+        dispatch(modalSlice.actions.toggleUpdateUserModal(data));
     }
 }

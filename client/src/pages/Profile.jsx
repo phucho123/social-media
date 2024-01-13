@@ -15,6 +15,8 @@ import { updateUser } from '../redux/reducer/userSlice'
 import { loadingFullScreen } from '../redux/reducer/loadingSlice'
 import { MdDone } from 'react-icons/md'
 import { setPost } from '../redux/reducer/postSlice'
+import { IoLocationOutline } from 'react-icons/io5'
+import { BsBriefcase } from 'react-icons/bs'
 
 const Profile = () => {
     const userStorage = useSelector(state => state.user.user);
@@ -90,11 +92,6 @@ const Profile = () => {
     const openPopover = Boolean(anchorEl);
 
     useEffect(() => {
-        // const image = new Image();
-        // image.onload = () => {
-        //     if (image.height > image.width) setAvatarTransform(0);
-        //     else setAvatarTransform(1);
-        // }
         avatarImage.src = profileAvatar.preview;
         const fetchData = async () => {
             try {
@@ -172,7 +169,7 @@ const Profile = () => {
                     <div className='w-full h-[32vh] rounded-b-lg text-red-400 overflow-hidden flex justify-center'>
                         <Button style={{ position: "absolute", left: 10, top: 10, border: "2px solid blue", borderRadius: "25px" }}
                             onClick={() => {
-                                navigate("/");
+                                navigate(-1);
                             }}>
                             <ArrowBackIcon />
                         </Button>
@@ -229,8 +226,16 @@ const Profile = () => {
                         setOpenConfirmChangeAvatar(false);
                     }} >Cancel</Button>
                 </div>}
-                <div>
+                <div className='flex flex-col items-center'>
                     <p className='font-bold text-lg font-sans mb-4 z-20'>{user.firstName + " " + user.lastName}</p>
+                    <div className='flex items-center gap-2 mb-4'>
+                        <IoLocationOutline style={{ color: "blue" }} size={22} />
+                        <span>{user.location ? user.location : "Add Location"}</span>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <BsBriefcase style={{ color: "blue" }} size={22} />
+                        <span>{user.profession ? user.profession : "Add Profesional"}</span>
+                    </div>
                 </div>
                 <div className='mb-8' >
                     {userStorage.user._id != id && !userStorage.user.friendRequestings?.includes(id) && !userStorage.user.friends?.some(friend => friend._id == id) && <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900"} onClick={handleSendFriendRequest} />}

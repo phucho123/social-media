@@ -5,12 +5,14 @@ import { BsBriefcase } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleUpdateUserModal } from '../../redux/reducer/modalSlice';
 
 const ProfileCard = () => {
     const user = useSelector((state) => state.user.user.user);
     const username = user.firstName + " " + user.lastName;
     const createdAt = moment(user.createdAt).fromNow();
+    const dispatch = useDispatch();
     return (
         <div className='w-full bg-[#25293c] rounded-xl pd-4 flex flex-col items-center px-5 py-5'>
             <div className='w-full border-b border-white border-opacity-20 pb-5 flex flex-col gap-5 mb-5'>
@@ -22,15 +24,15 @@ const ProfileCard = () => {
                             {/* <span className='text-sm opacity-40'>Hacker</span> */}
                         </div>
                     </Link>
-                    <FaRegEdit size={22} className='text-blue-600 cursor-pointer' />
+                    <FaRegEdit size={22} className='text-blue-600 cursor-pointer' onClick={() => dispatch(toggleUpdateUserModal({ open: true }))} />
                 </div>
                 <div className='flex items-center gap-2'>
-                    <IoLocationOutline />
-                    <span>Add Location</span>
+                    <IoLocationOutline style={{ color: "blue" }} size={22} />
+                    <span>{user.location ? user.location : "Add Location"}</span>
                 </div>
                 <div className='flex items-center gap-2'>
-                    <BsBriefcase />
-                    <span>Add Profesional</span>
+                    <BsBriefcase style={{ color: "blue" }} size={22} />
+                    <span>{user.profession ? user.profession : "Add Profesional"}</span>
                 </div>
                 <div className='flex justify-between'>
                     <p>Joined</p>
