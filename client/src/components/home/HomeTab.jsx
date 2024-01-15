@@ -15,7 +15,7 @@ const HomeTab = () => {
     return (
         <div className='w-full gap-2 lg:gap-4 h-full pt-5 pb-10 flex'>
             {/* LEFT */}
-            <div className='hidden w-[25%] h-full md:flex flex-col gap-6 overflow-y-auto no-scrollbar'>
+            <div className='hidden w-[40%] lg:w-[25%] h-full md:flex flex-col gap-6 overflow-y-auto no-scrollbar'>
                 <ProfileCard />
                 <div className='w-full bg-[#25293c] rounded-xl pd-4 flex flex-col items-center px-5 py-5'>
                     <div className='w-full border-b border-white border-opacity-20 pb-5 flex justify-between gap-5 mb-5'>

@@ -232,7 +232,7 @@ const Profile = () => {
                         <IoLocationOutline style={{ color: "blue" }} size={22} />
                         <span>{user.location ? user.location : "Add Location"}</span>
                     </div>
-                    <div className='flex items-center gap-2'>
+                    <div className='flex items-center gap-2 mb-4'>
                         <BsBriefcase style={{ color: "blue" }} size={22} />
                         <span>{user.profession ? user.profession : "Add Profesional"}</span>
                     </div>

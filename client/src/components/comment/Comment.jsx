@@ -11,18 +11,16 @@ const Comment = ({ commentInfo }) => {
     }
     avatarImage.src = commentInfo.userId.profileUrl;
 
-    console.log(commentInfo);
-
     return (
         <div className='w-full'>
             <div className='flex gap-2 items-center text-white'  >
-                <div className='rounded-full aspect-square w-[6%] bg-black flex justify-center items-center overflow-hidden'>
+                <div className='rounded-full aspect-square w-[48px] bg-black flex justify-center items-center overflow-hidden'>
                     <img src={commentInfo.userId.profileUrl ? commentInfo.userId.profileUrl : avatar} alt="404" className={`rounded-full ${avatarTransform ? 'h-full' : 'w-full'}`} />
                 </div>
 
                 <div>
                     <div className='font-bold'>{commentInfo.userId.firstName + " " + commentInfo.userId.lastName}</div>
-                    <div className='text-gray-300'>{moment(commentInfo.createdAt).fromNow()}</div>
+                    <div className=' text-blue-600'>{moment(commentInfo.createdAt).fromNow()}</div>
                 </div>
             </div>
             <div className='bg-white p-2 mt-2 rounded-lg inline-block break-all '>

@@ -12,6 +12,9 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { IoHome } from 'react-icons/io5';
+import { MdGroup } from 'react-icons/md';
+import { IoMdNotifications } from 'react-icons/io';
 
 export default function CustomDrawer() {
     const user = useSelector(state => state.user.user);
@@ -33,10 +36,10 @@ export default function CustomDrawer() {
 
     const list = (anchor) => (
         <Box
-            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : "35vw" }}
+            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : "auto" }}
             role="presentation"
-            // onClick={toggleDrawer(anchor, false)}
-            onKeyDown={toggleDrawer(anchor, false)}
+            onClick={toggleDrawer(anchor, false)}
+        // onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
                 <ListItem key={"1"} disablePadding >
@@ -49,7 +52,37 @@ export default function CustomDrawer() {
                         <ListItemText primary={"Profile"} aria-setsize={100} />
                     </ListItemButton>
                 </ListItem>
-                <ListItem key={"2"} disablePadding>
+                <ListItem key={"2"} disablePadding >
+                    <ListItemButton onClick={() => {
+                        navigate(`/`);
+                    }}>
+                        <ListItemIcon>
+                            <IoHome size={30} className={`cursor-pointer `} style={{ color: "blue" }} />
+                        </ListItemIcon>
+                        <ListItemText primary={"Home"} aria-setsize={100} />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key={"3"} disablePadding >
+                    <ListItemButton onClick={() => {
+                        navigate(`/friends`);
+                    }}>
+                        <ListItemIcon>
+                            <MdGroup size={30} className={`cursor-pointer `} style={{ color: "blue" }} />
+                        </ListItemIcon>
+                        <ListItemText primary={"Friends"} aria-setsize={100} />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key={"4"} disablePadding >
+                    <ListItemButton onClick={() => {
+                        navigate(`/notifications`);
+                    }}>
+                        <ListItemIcon>
+                            <IoMdNotifications size={30} className={`cursor-pointer`} style={{ color: "blue" }} />
+                        </ListItemIcon>
+                        <ListItemText primary={"Notifications"} aria-setsize={100} />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key={"5"} disablePadding>
                     <ListItemButton onClick={() => {
                         window.localStorage.removeItem("user");
                         navigate("/login");

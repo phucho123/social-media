@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleImageModal, toggleUpdateUserModal } from '../../../redux/reducer/modalSlice';
+import { toggleUpdateUserModal } from '../../../redux/reducer/modalSlice';
 import TextInput from '../TextInput';
 import { useForm } from 'react-hook-form';
 import CustomBtn from '../CustomBtn';

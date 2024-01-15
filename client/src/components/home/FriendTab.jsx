@@ -12,7 +12,7 @@ const FriendTab = () => {
                     <p className='flex justify-center text-lg font-semibold items-center'>Friends</p>
                     {
                         user?.friends.length ? user?.friends.map((friend, index) => (
-                            <div className='hover:border-4 p-2 rounded-lg border-blue-600' key={index}>
+                            <div className=' p-2 rounded-lg hover:opacity-70 hover:scale-105' key={index}>
                                 <FriendCard friendInfo={friend} />
                             </div>
 

@@ -10,7 +10,7 @@ import CustomDrawer from '../utils/CustomDrawer';
 import SearchBar from '../utils/SearchBar';
 
 const TopBar = ({ setTab, tab }) => {
-    const isMd = useMediaQuery('(min-width:770px)');
+    const isMd = useMediaQuery('(min-width:1024px)'); //770
     const navigate = useNavigate();
     return (
         <div className='sticky top-0 flex w-full bg-[#25293c] items-center justify-between py-3 md:py-6 px-4 rounded-b-xl'>
@@ -22,47 +22,50 @@ const TopBar = ({ setTab, tab }) => {
                     <span className='hidden md:flex text-2xl font-semibold'>{process.env.REACT_APP_APP_NAME}</span>
                 </div>
             </Link> */}
-            <div className='w-[25%]'>
+            <div className='flex-1 max-w-[50%] md:max-w-[40%]'>
                 <SearchBar />
             </div>
-            <div className='flex flex-1 justify-center'>
-                <div className='w-full sm:w-2/3 flex justify-between'>
-                    {
-                        tab === "home" ? (
-                            <IoHome size={30} className={`cursor-pointer text-blue-600`} />
-                        ) : (
-                            <IoHomeOutline size={30} className={`cursor-pointer`} onClick={() => {
-                                setTab("home");
-                                navigate("/");
-                            }} />
-                        )
-                    }
+            {
+                isMd ?
+                    <div className='flex justify-center w-[45%]'>
+                        <div className='w-full sm:w-2/3 flex justify-between'>
+                            {
+                                tab === "home" ? (
+                                    <IoHome size={30} className={`cursor-pointer text-blue-600`} />
+                                ) : (
+                                    <IoHomeOutline size={30} className={`cursor-pointer`} onClick={() => {
+                                        setTab("home");
+                                        navigate("/");
+                                    }} />
+                                )
+                            }
 
-                    {
-                        tab === "friend" ? (
-                            <MdGroup size={30} className={`cursor-pointer text-blue-600`} />
-                        ) : (
-                            <MdOutlineGroup size={30} className={`cursor-pointer `} onClick={() => {
-                                setTab("friend");
-                                navigate("friends");
-                            }} />
-                        )
-                    }
+                            {
+                                tab === "friend" ? (
+                                    <MdGroup size={30} className={`cursor-pointer text-blue-600`} />
+                                ) : (
+                                    <MdOutlineGroup size={30} className={`cursor-pointer `} onClick={() => {
+                                        setTab("friend");
+                                        navigate("friends");
+                                    }} />
+                                )
+                            }
 
-                    {
-                        tab === "notification" ? (
-                            <IoMdNotifications size={30} className={`cursor-pointer text-blue-600`} />
-                        ) : (
-                            <IoMdNotificationsOutline size={30} className={`cursor-pointer`} onClick={() => {
-                                setTab("notification");
-                                navigate("notifications");
-                            }} />
-                        )
-                    }
+                            {
+                                tab === "notification" ? (
+                                    <IoMdNotifications size={30} className={`cursor-pointer text-blue-600`} />
+                                ) : (
+                                    <IoMdNotificationsOutline size={30} className={`cursor-pointer`} onClick={() => {
+                                        setTab("notification");
+                                        navigate("notifications");
+                                    }} />
+                                )
+                            }
 
-                </div>
-            </div>
-            <div className='w-[30%] flex gap-4 items-center text-ascent-1 text-md md:text-x justify-center'>
+                        </div>
+                    </div> : <div></div>
+            }
+            <div className='w-[30%] flex gap-4 items-center text-ascent-1 text-md md:text-x justify-end'>
                 <div>
                     {
                         isMd ? (
