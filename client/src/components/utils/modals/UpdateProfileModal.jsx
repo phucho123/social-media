@@ -8,6 +8,7 @@ import CustomBtn from '../CustomBtn';
 import { apiRequest } from '../../../utils/api';
 import { updateUser } from '../../../redux/reducer/userSlice';
 import { loadingFullScreen } from '../../../redux/reducer/loadingSlice';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function UpdateProfileModal() {
     const user = useSelector((state) => state.user.user);
@@ -65,51 +66,60 @@ export default function UpdateProfileModal() {
                 aria-describedby="modal-modal-description"
                 className='overflow-auto flex items-center justify-center'
             >
-                <form className='bg-[#25293c] w-[90%] sm:w-[60%] xl:w-[40%] rounded-lg' onSubmit={handleSubmit(onSubmit)}>
-                    <div className='font-bold text-xl flex pb-10 justify-end text-red-600 px-2 '
+                <form className='bg-white w-[90%] sm:w-[60%] xl:w-[40%] rounded-lg' onSubmit={handleSubmit(onSubmit)}>
+                    <div className='font-bold text-xl flex justify-end items-center text-red-600 px-2 '
                     >
-                        <div className='rounded-full p-2 cursor-pointer' onClick={handleClose}>X</div>
+                        <div className='text-black font-mono flex flex-1 justify-center'>
+                            Update Profile
+                        </div>
+                        <div className='rounded-full p-2 cursor-pointer font-normal' onClick={handleClose}>
+                            <CloseIcon className='rounded-full hover:bg-red-100' />
+                        </div>
                     </div>
-                    <div className='flex flex-col gap-10 pb-10 px-10'>
+                    <div className='flex flex-col gap-5 pb-10 px-10'>
                         <TextInput
                             type={"text"}
                             name={"firsName"}
+                            label={"First Name"}
                             placeholder={"First Name"}
                             register={register("firstName", {
                                 required: "First name is required",
                                 value: user.user.firstName ? user.user.firstName : "",
                             })}
-                            styles={"rounded-lg w-full bg-gray-300"}
+                            styles={"rounded-lg w-full bg-gray-100"}
                             errors={errors.firstName ? errors.firstName?.message : ""}
                         />
                         <TextInput
                             type={"text"}
                             name={"lastName"}
+                            label={"Last Name"}
                             placeholder={"Last Name"}
                             register={register("lastName", {
                                 required: "Last name is required",
                                 value: user.user.lastName ? user.user.lastName : ""
                             })}
-                            styles={"rounded-lg w-full bg-gray-300"}
+                            styles={"rounded-lg w-full bg-gray-100"}
                             errors={errors.lastName ? errors.lastName?.message : ""}
                         />
                         <TextInput
                             type={"text"}
                             name={"location"}
+                            label={"Location"}
                             placeholder={"Location"}
                             register={register("location", {
                                 value: user.user.location ? user.user.location : ""
                             })}
-                            styles={"rounded-lg w-full bg-gray-300"}
+                            styles={"rounded-lg w-full bg-gray-100"}
                         />
                         <TextInput
                             type={"text"}
                             name={"profession"}
+                            label={"Profession"}
                             placeholder={"Professional"}
                             register={register("profession", {
                                 value: user.user.profession ? user.user.profession : ""
                             })}
-                            styles={"rounded-lg w-full bg-gray-300"}
+                            styles={"rounded-lg w-full bg-gray-100"}
                         />
 
                         <CustomBtn label={"Update"} type={"submit"} styles={"bg-blue-600 p-2 rounded-lg justify-center text-bold font-bold text-white hover:bg-blue-500"} />

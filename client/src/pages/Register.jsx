@@ -41,7 +41,7 @@ const Register = () => {
     }
     return (
         token ? <Navigate to="/" replace /> :
-            <div className={`w-full h-[100vh] flex items-center justify-center p-6`}>
+            <div className={`w-full h-[100vh] flex items-center justify-center p-6 bg-[#1e1d1d]`}>
                 {/* <div className='fixed top-4 right-4 w-[50%] lg:w-[30%]'>
                     <CustomAlert openStatus={true} />
                 </div> */}

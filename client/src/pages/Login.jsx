@@ -22,6 +22,8 @@ const Login = () => {
         mode: "onChange"
     }))
     const onSubmit = async (data) => {
+        console.log("Login submit")
+        console.log(data)
         setIsSubmiting(true);
         try {
             const res = await apiRequest({
@@ -43,7 +45,7 @@ const Login = () => {
 
     return (
         token ? (<Navigate to="/" replace />) : (
-            <div className={`w-full h-[100vh] flex items-center justify-center p-6`}>
+            <div className={`w-full h-[100vh] flex items-center justify-center p-6 bg-[#1e1d1d]`}>
                 <div className='w-full md:w-2/3 h-fit lg:h-full 2xl:h-5/6 py-8 lg:py-0 flex rounded-xl overflow-hidden shadow-xl'>
                     {/* LEFT */}
                     <div className={`w-full lg:w-1/2 h-full p-10 2xl:px-20 flex flex-col justify-center bg-[#25293c] rounded-xl lg:rounded-none`}>
@@ -60,7 +62,7 @@ const Login = () => {
                                 type={"email"}
                                 name={"email"}
                                 label={"Email"}
-                                placeholder={'example: emlia@gmail.com'}
+                                placeholder={'example: emilia@gmail.com'}
                                 register={register("email", {
                                     required: "Email is required",
                                 })}

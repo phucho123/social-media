@@ -110,17 +110,23 @@ const CreatePost = () => {
     }
 
     const onSubmit = async (data) => {
+        console.log("Submited")
         dispatch(loadingFullScreen(true));
         await handlePost(data.description);
         dispatch(loadingFullScreen(false));
+        image && URL.revokeObjectURL(image.preview);
         setImage(null);
         setValue("description", "");
     }
 
+    const handleCancelPost = () => {
+        image && URL.revokeObjectURL(image.preview);
+        setImage(null);
+    }
 
     return (
-        <form className='w-full rounded-xl bg-[#25293c] p-5 flex flex-col gap-2' onSubmit={handleSubmit(onSubmit)}>
-            <div className='w-full flex gap-2 border-b border-white border-opacity-20 pb-4 items-center justify-center'>
+        <form className='w-full rounded-md bg-white shadow-md pb-2 px-2 flex flex-col' onSubmit={handleSubmit(onSubmit)}>
+            <div className='w-full pt-2 flex gap-2 border-b border-white border-opacity-20 pb-2 items-center justify-center'>
                 <div className='rounded-full aspect-square w-14 bg-black flex justify-center items-center overflow-hidden'>
                     <img src={user.profileUrl ? user.profileUrl : avatar} alt="404" className={`rounded-full ${avatarTransform ? 'h-full' : 'w-full'}`} />
                 </div>
@@ -129,33 +135,37 @@ const CreatePost = () => {
                     name={"description"}
                     placeholder={"What are you thinking ?"}
                     register={register("description")}
-                    styles={"rounded-full w-full bg-gray-300"}
+                    styles={"rounded-full w-full bg-gray-100"}
                 />
             </div>
             <div className='flex justify-between px-10 lg:px-20'>
                 <label className='' htmlFor='uploadvideo' >
                     {/* <input type='file' className='hidden' id="uploadvideo" data-max-size='5120' accept='.mp4, .wav'
                         onChange={handleUploadVideo} /> */}
-                    <IoVideocamOutline size={22} className='cursor-pointer' />
+                    <IoVideocamOutline size={22} color='black' className='cursor-pointer' />
                 </label>
                 <label className='' htmlFor='uploadimage' >
                     <input type='file' className='hidden' id="uploadimage" data-max-size='5120' accept='.jpg, .png, .jpeg'
                         onChange={handleUploadImage} />
-                    <CiImageOn size={22} className='cursor-pointer' />
+                    <CiImageOn size={22} color='black' className='cursor-pointer' />
                 </label>
                 <label className='' htmlFor='uploadgif' >
                     {/* <input type='file' className='hidden' id="uploadgif" data-max-size='5120' accept='.gif'
                         onChange={handleUploadGif} /> */}
-                    <MdGifBox size={22} className='cursor-pointer' />
+                    <MdGifBox size={22} color='black' className='cursor-pointer' />
                 </label>
             </div >
             {image && <img src={image.preview} className='rounded-xl' alt="404" />}
             {/* {video && <video src={video.preview} className='rounded-xl' autoPlay muted />}
             {gif && <img src={gif.preview} className='rounded-xl' alt='404' />} */}
-            <div className='flex justify-end text-white'>
-                <CustomBtn type={"submit"} label={"Post"} styles={"border border-blue-600 px-2 py-1 rounded-lg bg-blue-600 hover:bg-blue-500"} />
+            <div className='flex' style={{ justifyContent: `${image ? "space-between" : "end"}` }}>
+                {image && <div className='flex text-white'>
+                    <CustomBtn type={"button"} label={"Cancel"} styles={"text-red-600 border px-1 rounded-lg hover:bg-red-100 border-red-600"} onClick={handleCancelPost} />
+                </div>}
+                <div className='flex text-white'>
+                    <CustomBtn type={"submit"} label={"Post"} styles={"border border-blue-600 px-1 py-0 rounded-lg bg-blue-600 hover:bg-blue-500"} />
+                </div>
             </div>
-
         </form >
     )
 }

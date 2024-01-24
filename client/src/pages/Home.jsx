@@ -26,7 +26,7 @@ const Home = () => {
     }, [location]);
 
     return (
-        <div className='w-full px-0 pb-10 lg:px-10 lg:pb-20 2xl:px-40 lg:rounded-lg h-screen overflow-hidden'>
+        <div className='w-full bg-[#f1f1f1] px-0 2xl:px-40 lg:rounded-lg h-screen overflow-hidden'>
             <TopBar setTab={setTab} tab={tab} />
             <Outlet />
         </div>

@@ -14,8 +14,8 @@ const ProfileCard = () => {
     const createdAt = moment(user.createdAt).fromNow();
     const dispatch = useDispatch();
     return (
-        <div className='w-full bg-[#25293c] rounded-xl pd-4 flex flex-col items-center px-5 py-5'>
-            <div className='w-full border-b border-white border-opacity-20 pb-5 flex flex-col gap-5 mb-5'>
+        <div className='w-[95%] rounded-r-md bg-white text-black shadow-md flex flex-col items-center px-5 py-5'>
+            <div className='w-full border-b border-black border-opacity-20 pb-5 flex flex-col gap-5 mb-5'>
                 <div className='flex items-center justify-between'>
                     <Link to={`/profile/${user._id}`} className='flex items-center gap-2'>
                         <img src={user.profileUrl} alt="404" className='object-cover w-14 h-14 rounded-full' />
@@ -36,7 +36,7 @@ const ProfileCard = () => {
                 </div>
                 <div className='flex justify-between'>
                     <p>Joined</p>
-                    <p className='text-white text-opacity-60'>{createdAt}</p>
+                    <p className='text-black text-opacity-60'>{createdAt}</p>
                 </div>
             </div>
             <div className='w-full border-b border-white border-opacity-20 pb-5 flex flex-col gap-5 mb-5'>

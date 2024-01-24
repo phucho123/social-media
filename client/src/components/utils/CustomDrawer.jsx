@@ -101,7 +101,7 @@ export default function CustomDrawer() {
         <div>
             <React.Fragment key={"right"}>
                 <Button onClick={toggleDrawer("right", true)}>
-                    <MenuIcon style={{ fontSize: "2rem", color: "white" }} />
+                    <MenuIcon style={{ fontSize: "2rem", color: "black" }} />
                 </Button>
                 <Drawer
                     anchor={"right"}
@@ -109,7 +109,7 @@ export default function CustomDrawer() {
                     onClose={toggleDrawer("right", false)}
                     PaperProps={{
                         sx: {
-                            backgroundColor: "#25293c",
+                            backgroundColor: "white",
                             color: "blue",
                         }
                     }}

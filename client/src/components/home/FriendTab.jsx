@@ -6,13 +6,13 @@ import { useSelector } from 'react-redux'
 const FriendTab = () => {
     const user = useSelector((state) => state.user.user.user);
     return (
-        <div className='flex justify-center h-full overflow-y-auto no-scrollbar'>
+        <div className='flex justify-center h-full overflow-y-auto no-scrollbar text-black'>
             <div className='w-full lg:w-[60%] flex mt-2 gap-10'>
-                <div className='min-w-[50%] flex flex-col gap-4'>
+                <div className='min-w-[50%] flex flex-col'>
                     <p className='flex justify-center text-lg font-semibold items-center'>Friends</p>
                     {
                         user?.friends.length ? user?.friends.map((friend, index) => (
-                            <div className=' p-2 rounded-lg hover:opacity-70 hover:scale-105' key={index}>
+                            <div className=' p-2 rounded-lg' key={index}>
                                 <FriendCard friendInfo={friend} />
                             </div>
 

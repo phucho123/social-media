@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react'
-import { FaSearch } from 'react-icons/fa'
 
-const TextInput = forwardRef(({
+const TextInput = ({
     name, type, label, labelStyle, placeholder, register, styles, errors
-}, ref) => {
+}, ref1) => {
+    const { ref, ...rest } = register
     return (
         <div className='w-full flex flex-col'>
             {label && (
@@ -14,10 +14,14 @@ const TextInput = forwardRef(({
                 <input
                     type={type}
                     name={name}
+                    // ref={ref}
                     placeholder={placeholder}
-                    ref={ref}
-                    className={`bg-secondary text-black rounded border border-[#66666690] outline-none text-sm text-ascent-1 px-4 py-3 placeholder:text-[#666] ${styles}`}
-                    {...register}
+                    className={`bg-secondary text-black rounded border border-[#66666690] focus:border-blue-600 focus:border-[3px] focus:border-opacity-50 outline-none text-sm text-ascent-1 px-4 py-3 placeholder:text-[#666] ${styles}`}
+                    {...rest}
+                    ref={(e) => {
+                        ref(e);
+                        if (ref1) ref1.current = e;
+                    }}
                 />
             </div>
             {errors && (
@@ -25,6 +29,6 @@ const TextInput = forwardRef(({
             )}
         </div>
     )
-})
+}
 
-export default TextInput
+export default forwardRef(TextInput)

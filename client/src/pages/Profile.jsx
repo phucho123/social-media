@@ -164,100 +164,111 @@ const Profile = () => {
     const navigate = useNavigate();
     return (
         user ? <div>
-            <div className='w-full flex justify-center flex-col items-center'>
-                <div className='w-full lg:w-2/3 h-[100%]'>
-                    <div className='w-full h-[32vh] rounded-b-lg text-red-400 overflow-hidden flex justify-center'>
-                        <Button style={{ position: "absolute", left: 10, top: 10, border: "2px solid blue", borderRadius: "25px" }}
-                            onClick={() => {
-                                navigate(-1);
+            <div className='w-full flex min-h-screen flex-col items-center text-black bg-[#f1f1f1] pb-10'>
+                <div className='w-full flex justify-center shadow-md bg-white'>
+                    <div className='w-full lg:w-2/3 h-[100%]'>
+                        <div className='w-full h-[32vh] rounded-b-lg text-red-400 overflow-hidden flex justify-center'>
+                            <Button style={{ position: "absolute", left: 10, top: 10, border: "2px solid blue", borderRadius: "25px" }}
+                                onClick={() => {
+                                    navigate(-1);
+                                }}>
+                                <ArrowBackIcon />
+                            </Button>
+                            <img src={background} alt='404'
+                                className=" rounded-b-lg w-full" />
+                        </div>
+                        <div className='w-full flex justify-center p-2 mt-[-10vh] relative cursor-pointer' onClick={handleOpenPopover} >
+                            <div className='rounded-full aspect-square w-1/3 sm:w-1/4 lg:w-1/6 bg-black flex justify-center items-center overflow-hidden' >
+                                <img src={profileAvatar.preview ? profileAvatar.preview : avatar} alt="404" className={`rounded-full ${avatarTransform ? 'h-full' : 'w-full'}`} />
+                            </div>
+                        </div>
+
+                        <Popover
+                            open={openPopover}
+                            anchorEl={anchorEl}
+                            onClose={handleClosePopover}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center',
+                            }}
+                        >
+                            <div onClick={() => {
+                                dispatch(toggleImageModal({
+                                    open: true,
+                                    imageUrl: profileAvatar.preview ? profileAvatar.preview : avatar
+                                }));
+                                handleClosePopover()
                             }}>
-                            <ArrowBackIcon />
-                        </Button>
-                        <img src={background} alt='404'
-                            className=" rounded-lg w-full" />
-                    </div>
-                    <div className='w-full flex justify-center p-2 mt-[-10vh] relative cursor-pointer' onClick={handleOpenPopover} >
-                        <div className='rounded-full aspect-square w-1/3 sm:w-1/4 lg:w-1/6 bg-black flex justify-center items-center overflow-hidden' >
-                            <img src={profileAvatar.preview ? profileAvatar.preview : avatar} alt="404" className={`rounded-full ${avatarTransform ? 'h-full' : 'w-full'}`} />
-                        </div>
-                    </div>
+                                <Typography sx={{ p: 1, cursor: "pointer" }}>See Avatar</Typography>
+                            </div>
+                            {userStorage.user._id == id && <div>
 
-                    <Popover
-                        open={openPopover}
-                        anchorEl={anchorEl}
-                        onClose={handleClosePopover}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
-                        }}
-                    >
-                        <div onClick={() => {
-                            dispatch(toggleImageModal({
-                                open: true,
-                                imageUrl: profileAvatar.preview ? profileAvatar.preview : avatar
-                            }));
-                            handleClosePopover()
-                        }}>
-                            <Typography sx={{ p: 1, cursor: "pointer" }}>See Avatar</Typography>
-                        </div>
-                        {userStorage.user._id == id && <div>
+                                <label className='' htmlFor='uploadavatar' >
+                                    <input type='file' className='hidden' id="uploadavatar" data-max-size='5120' accept='.jpg, .png, .jpeg'
+                                        onChange={handleUploadAvatar} />
+                                    <Typography sx={{ p: 1, cursor: "pointer" }}>Change Avatar</Typography>
+                                </label>
 
-                            <label className='' htmlFor='uploadavatar' >
-                                <input type='file' className='hidden' id="uploadavatar" data-max-size='5120' accept='.jpg, .png, .jpeg'
-                                    onChange={handleUploadAvatar} />
-                                <Typography sx={{ p: 1, cursor: "pointer" }}>Change Avatar</Typography>
-                            </label>
+                            </div>}
+                        </Popover>
+                        {openConfirmChangeAvatar && <div className='flex gap-2 justify-center'>
+                            <Button onClick={async () => {
+                                await handleChangeAvatar()
+                                setOpenConfirmChangeAvatar(false);
 
+                            }}>Confirm</Button>
+                            <Button sx={{ color: 'red' }} onClick={() => {
+                                setAvatar({ preview: user.profileUrl });
+                                setOpenConfirmChangeAvatar(false);
+                            }} >Cancel</Button>
                         </div>}
-                    </Popover>
+                        <div className='flex justify-center flex-col items-center mb-2'>
+                            <p className='font-bold text-lg font-sans z-20 text-center'>{user.firstName + " " + user.lastName}</p>
+                            {userStorage.user._id != id && userStorage.user.friends?.some(friend => friend._id == id) && <Chip
+                                label="Friend"
+                                icon={<MdDone />}
+                                color="success"
+                            />}
+                            <div className='mb-8' >
+                                {userStorage.user._id != id && !userStorage.user.friendRequestings?.includes(id) && !userStorage.user.friends?.some(friend => friend._id == id) && <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900"} onClick={handleSendFriendRequest} />}
+                                {userStorage.user._id != id && userStorage.user.friendRequestings?.includes(id) && <div>
+                                    <Button color='error' variant="contained" onClick={handleDeleteFriendRequest} >Cancel Friend Request</Button>
+                                </div>}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                {openConfirmChangeAvatar && <div className='flex gap-2'>
-                    <Button onClick={async () => {
-                        await handleChangeAvatar()
-                        setOpenConfirmChangeAvatar(false);
 
-                    }}>Confirm</Button>
-                    <Button sx={{ color: 'red' }} onClick={() => {
-                        setAvatar({ preview: user.profileUrl });
-                        setOpenConfirmChangeAvatar(false);
-                    }} >Cancel</Button>
-                </div>}
-                <div className='flex flex-col items-center'>
-                    <p className='font-bold text-lg font-sans mb-4 z-20'>{user.firstName + " " + user.lastName}</p>
-                    <div className='flex items-center gap-2 mb-4'>
-                        <IoLocationOutline style={{ color: "blue" }} size={22} />
-                        <span>{user.location ? user.location : "Add Location"}</span>
+                <div className='w-full flex flex-col md:w-2/3 lg:flex-row  pt-4 gap-4'>
+                    <div className='w-full flex flex-col px-2  lg:w-[40%] h-full bg-white shadow-md rounded-md pt-2'>
+                        <div className='flex items-center gap-2 mb-4'>
+                            <IoLocationOutline style={{ color: "blue" }} size={22} />
+                            <span>{user.location ? user.location : "Add Location"}</span>
+                        </div>
+                        <div className='flex items-center gap-2 mb-4'>
+                            <BsBriefcase style={{ color: "blue" }} size={22} />
+                            <span>{user.profession ? user.profession : "Add Profesional"}</span>
+                        </div>
                     </div>
-                    <div className='flex items-center gap-2 mb-4'>
-                        <BsBriefcase style={{ color: "blue" }} size={22} />
-                        <span>{user.profession ? user.profession : "Add Profesional"}</span>
+                    <div className='w-full flex justify-center lg:w-[60%]'>
+                        <div className='w-full flex gap-8 justify-center'>
+                            <div className='w-full flex flex-col gap-8'>
+                                {(userStorage.user._id == id) && <CreatePost />}
+                                {
+                                    posts.length ? posts.map((post, index) => (
+                                        <PostCard postInfo={post} key={index} />
+                                    )) : <div></div>
+                                }
+                            </div>
+                        </div>
                     </div>
+
                 </div>
-                <div className='mb-8' >
-                    {userStorage.user._id != id && !userStorage.user.friendRequestings?.includes(id) && !userStorage.user.friends?.some(friend => friend._id == id) && <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900"} onClick={handleSendFriendRequest} />}
-                    {userStorage.user._id != id && userStorage.user.friendRequestings?.includes(id) && <div>
-                        <Button color='error' variant="contained" onClick={handleDeleteFriendRequest} >Cancel Friend Request</Button>
-                    </div>}
-                    {userStorage.user._id != id && userStorage.user.friends?.some(friend => friend._id == id) && <Chip
-                        label="Friend"
-                        icon={<MdDone />}
-                        color="success"
-                    />}
-                </div>
-                <div className='w-full lg:w-2/3 flex gap-8 justify-center'>
-                    <div className='w-full sm:w-2/3 flex flex-col gap-8 px-2'>
-                        {(userStorage.user._id == id) && <CreatePost />}
-                        {
-                            posts.length ? posts.map((post, index) => (
-                                <PostCard postInfo={post} key={index} />
-                            )) : <div></div>
-                        }
-                    </div>
-                </div>
+
 
             </div>
         </div> : <Loading />

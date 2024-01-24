@@ -9,6 +9,8 @@ import { setComments, toggleComments } from '../../../redux/reducer/postSlice';
 import { apiRequest } from '../../../utils/api';
 import { loadingFullScreen } from '../../../redux/reducer/loadingSlice';
 import Loading from '../Loading';
+import SendIcon from '@mui/icons-material/Send';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function CommentModal() {
     const user = JSON.parse(window.localStorage.getItem("user"));
@@ -67,9 +69,11 @@ export default function CommentModal() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <div className='bg-[#25293c] w-[95%] sm:w-[60%] xl:w-[40%] h-2/3 m-auto mt-20 rounded-lg border-none flex flex-col items-center'>
-                    <div className='font-bold text-xl cursor-pointer flex w-[95%] justify-end text-red-600'
-                        onClick={handleClose}>X</div>
+                <div className='bg-white w-[95%] sm:w-[60%] xl:w-[40%] h-2/3 m-auto mt-20 rounded-lg border-none flex flex-col items-center'>
+                    <div className='font-bold text-xl cursor-pointer flex w-[98%] justify-end text-red-600 pb-4'
+                        onClick={handleClose}>
+                        <CloseIcon className='rounded-full hover:bg-red-100' />
+                    </div>
                     <div className='h-[100%] w-[95%] flex flex-col items-center gap-2 overflow-y-auto no-scrollbar'>
                         {
                             comments ? comments.map(comment => (
@@ -77,17 +81,17 @@ export default function CommentModal() {
                             )) : <Loading />
                         }
                     </div>
-                    <form className='w-full p-4 flex gap-2 items-center'
+                    <form className='w-full p-4 flex items-center'
                         onSubmit={handleSubmit(handlOnClick)}>
                         <TextInput
                             type={"text"}
                             name={"comment"}
                             placeholder={"Leave your comment"}
                             register={register("comment")}
-                            styles={"rounded-full w-full bg-gray-300"}
+                            styles={"rounded-l-full w-full bg-gray-100 h-10"}
                         />
-                        <CustomBtn label={"Submit"} type={"submit"} styles={
-                            "bg-blue-600 rounded-lg p-2 text-white font-bold"
+                        <CustomBtn label={<SendIcon />} type={"submit"} styles={
+                            "bg-blue-600 rounded-r-full h-10 p-2 text-white font-bold"
                         }
                         />
                     </form>

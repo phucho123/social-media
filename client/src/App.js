@@ -66,7 +66,7 @@ function App() {
   const isLoadingFullScreen = useSelector((state) => state.loading.fullScreen);
   const user = useSelector(state => state.user.user);
   return (
-    <div className={`w-full min-h-[100vh] text-white bg-black`}>
+    <div className={`w-full min-h-[100vh] text-white bg-white`}>
       {
         isLoadingFullScreen && <LoadingFullScreen />
       }

@@ -156,15 +156,15 @@ const PostCard = ({ postInfo }) => {
         }
     }
     return (
-        <div className='w-full rounded-xl bg-[#25293c] p-5 flex flex-col gap-2'>
+        <div className='w-full rounded-md bg-white shadow-md text-black p-5 flex flex-col gap-2'>
             <div className='w-full flex justify-between'>
                 <div className='flex gap-2 items-center cursor-pointer' onClick={() => {
                     navigate(`/profile/${userId._id}`);
                 }}>
                     <img src={postInfo.userId.profileUrl ? postInfo.userId.profileUrl : avatar} alt="404" className='object-cover w-14 h-14 rounded-full' />
                     <div>
-                        <p className='text-lg font-semibold'>{fullName}</p>
-                        <p className='text-white text-opacity-60'>{moment(createdAt).fromNow()}</p>
+                        <p className='text-lg font-semibold hover:underline'>{fullName}</p>
+                        <p className='text-gray-500 text-opacity-60 hover:underline'>{moment(createdAt).fromNow()}</p>
                     </div>
                 </div>
                 {/* <div className='flex items-center'>Delete</div> */}

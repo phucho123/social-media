@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { createRef, useEffect, useRef, useState } from 'react'
 import TextInput from './TextInput'
 import { useForm } from 'react-hook-form'
 import { Button, Popover, Typography } from '@mui/material';
@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { FaSearch } from "react-icons/fa";
 import { apiRequest } from '../../utils/api';
 import FriendCard from '../friend/FriendCard';
+import { current } from '@reduxjs/toolkit';
 
 const SearchBar = () => {
     const {
@@ -18,13 +19,23 @@ const SearchBar = () => {
         mode: "onChange"
     }));
 
+    const inputRef = useRef(null);
+
     ////Popover/////
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [searchUsers, setSearchUsers] = useState([]);
+    const [sizeOfSearchInput, setSizeOfSearchInput] = useState(0);
+
     const handleOpenPopover = (event) => {
-        setAnchorEl(event.currentTarget);
+        setAnchorEl(inputRef.current);
+        if (inputRef.current?.attributes.type.ownerElement.offsetWidth != sizeOfSearchInput) {
+            setSizeOfSearchInput(inputRef.current?.attributes.type.ownerElement.offsetWidth);
+        }
+        console.log(inputRef);
+        // setAnchorEl(event.currentTarget)
     };
+
     const handleClosePopover = () => {
         setAnchorEl(null);
     };
@@ -33,6 +44,7 @@ const SearchBar = () => {
     const onSubmit = async (data) => {
         await handleSearchUser(data.search);
     }
+
 
     const handleSearchUser = async (keyword) => {
         if (!keyword) return;
@@ -64,9 +76,10 @@ const SearchBar = () => {
                 name={"search"}
                 placeholder={"Search"}
                 register={register("search")}
-                styles={"rounded-full w-full bg-gray-300 rounded-r-none "}
+                styles={"rounded-full w-full bg-gray-100 rounded-r-none h-10"}
+                ref={inputRef}
             />
-            <CustomBtn label={<div className='bg-blue-600 flex justify-center items-center h-12 px-2 rounded-r-full cursor-pointer'
+            <CustomBtn label={<div className='bg-blue-600 hover:bg-blue-500 flex justify-center items-center h-10 px-2 rounded-r-full cursor-pointer'
                 onClick={handleOpenPopover}>
                 <FaSearch size={20} />
             </div>} type={"submit"} />
@@ -83,18 +96,14 @@ const SearchBar = () => {
                     horizontal: 'right',
                 }}
             >
-                <div className='max-h-[200px] overflow-y-auto no-scrollbar min-w-[300px] p-2'>
+                <div className={`max-h-[200px] overflow-y-auto no-scrollbar p-2`} style={{ width: `${sizeOfSearchInput}px` }}>
                     {
                         searchUsers.length ? searchUsers.map((user, index) => (
                             <FriendCard friendInfo={user} key={index} />
                         )) : <Typography sx={{ p: 1, cursor: "pointer" }}>No user found</Typography>
                     }
                 </div>
-
-
             </Popover>
-
-
         </form>
 
     )

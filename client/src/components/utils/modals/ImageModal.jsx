@@ -24,7 +24,6 @@ export default function ImageModal() {
                 className='overflow-auto flex items-center justify-center'
             >
                 {
-
                     imageUrl ? <div className={`${ratio > 1 ? 'h-1/2' : 'max-w-[90%]'}  relative rounded-xl`}>
                         <div className='font-bold text-xl flex w-full px-2 justify-end text-red-600 absolute'
                         >
