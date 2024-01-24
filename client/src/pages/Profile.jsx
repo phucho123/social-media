@@ -168,7 +168,7 @@ const Profile = () => {
                 <div className='w-full flex justify-center shadow-md bg-white'>
                     <div className='w-full lg:w-2/3 h-[100%]'>
                         <div className='w-full h-[32vh] rounded-b-lg text-red-400 overflow-hidden flex justify-center'>
-                            <Button style={{ position: "absolute", left: 10, top: 10, border: "2px solid blue", borderRadius: "25px" }}
+                            <Button style={{ position: "fixed", left: 10, top: 10, border: "2px solid blue", borderRadius: "25px" }}
                                 onClick={() => {
                                     navigate(-1);
                                 }}>
@@ -234,7 +234,7 @@ const Profile = () => {
                                 color="success"
                             />}
                             <div className='mb-8' >
-                                {userStorage.user._id != id && !userStorage.user.friendRequestings?.includes(id) && !userStorage.user.friends?.some(friend => friend._id == id) && <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900"} onClick={handleSendFriendRequest} />}
+                                {userStorage.user._id != id && !userStorage.user.friendRequestings?.includes(id) && !userStorage.user.friends?.some(friend => friend._id == id) && <CustomBtn label={"+ Add friend"} styles={"bg-blue-600 p-2 rounded-lg hover:bg-blue-900 text-white"} onClick={handleSendFriendRequest} />}
                                 {userStorage.user._id != id && userStorage.user.friendRequestings?.includes(id) && <div>
                                     <Button color='error' variant="contained" onClick={handleDeleteFriendRequest} >Cancel Friend Request</Button>
                                 </div>}

@@ -29,7 +29,7 @@ const TopBar = ({ setTab, tab }) => {
                 isMd ?
                     <div className='flex justify-center w-[45%]'>
                         <div className='w-full sm:w-2/3 flex justify-between'>
-                            <div className='px-4 py-2 hover:bg-gray-200 rounded-xl'>
+                            <div className='px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer'>
                                 {
                                     tab === "home" ? (
                                         <IoHome size={30} className={`cursor-pointer text-blue-600 `} />
@@ -42,7 +42,7 @@ const TopBar = ({ setTab, tab }) => {
                                 }
                             </div>
 
-                            <div className='px-4 py-2 hover:bg-gray-200 rounded-xl'>
+                            <div className='px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer'>
                                 {
                                     tab === "friend" ? (
                                         <MdGroup size={30} className={`cursor-pointer text-blue-600`} />
@@ -54,7 +54,7 @@ const TopBar = ({ setTab, tab }) => {
                                     )
                                 }
                             </div>
-                            <div className='px-4 py-2 hover:bg-gray-200 rounded-xl'>
+                            <div className='px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer'>
                                 {
                                     tab === "notification" ? (
                                         <IoMdNotifications size={30} className={`cursor-pointer text-blue-600`} />

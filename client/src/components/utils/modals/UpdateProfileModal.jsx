@@ -46,10 +46,10 @@ export default function UpdateProfileModal() {
             if (res.status == 200) {
                 dispatch(updateUser(res.data));
             }
-            setValue("firstName", "");
-            setValue("lastName", "");
-            setValue("location", "");
-            setValue("profession", "");
+            setValue("firstName", res.data.firstName);
+            setValue("lastName", res.data.lastName);
+            setValue("location", res.data.location);
+            setValue("profession", res.data.profession);
             handleClose();
             dispatch(loadingFullScreen(false));
 
