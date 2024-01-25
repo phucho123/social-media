@@ -27,10 +27,10 @@ const HomeTab = () => {
             </div>
             {/* RIGHT */}
             <div className='hidden lg:flex w-[30%] flex-col gap-8 overflow-y-auto no-scrollbar text-black items-end pt-4'>
-                <div className='w-[95%] rounded-l-md bg-white text-black shadow-md p-4 flex flex-col gap-5'>
-                    <div className='flex items-center justify-between border-b border-gray-300 border-opacity-20 pb-3'>
-                        <p className=''>Friend Requests</p>
-                        <p>{user.friendRequests.length}</p>
+                <div className='w-[95%] rounded-l-md bg-[#ff1f1f1] p-4 flex flex-col gap-5'>
+                    <div className='flex items-center justify-between border-b-2 border-black border-opacity-20 pb-2'>
+                        <p className='text-gray-400 font-semibold'>Friend Requests</p>
+                        <p className='text-gray-400 font-semibold'>{user.friendRequests.length}</p>
                     </div>
                     {
                         user.friendRequests.map((friendRequest, index) => (
@@ -40,15 +40,16 @@ const HomeTab = () => {
 
                 </div>
 
-                <div className='w-[95%] rounded-l-md bg-white shadow-md pd-4 flex flex-col items-center px-5 py-5'>
-                    <div className='w-full border-b border-black border-opacity-20 pb-5 flex justify-between gap-5 mb-5'>
-                        <p>Friends</p>
-                        <p>{user.friends.length}</p>
+                <div className='w-[95%] rounded-l-md bg-[#f1f1f1] pd-4 flex flex-col items-center px-5 py-5'>
+                    <div className='w-full border-b-2 border-black border-opacity-20 pb-2 flex justify-between gap-5 mb-5'>
+                        <p className='text-gray-400 font-semibold'>Friends</p>
+                        <p className='text-gray-400 font-semibold'>{user.friends.length}</p>
                     </div>
                     {
                         user.friends.map((friend, index) => (
                             <FriendCard friendInfo={friend} key={index} />
                         ))
+
                     }
                 </div>
             </div>
