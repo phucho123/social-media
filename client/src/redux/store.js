@@ -4,6 +4,7 @@ import postSlice from "./reducer/postSlice";
 import userSlice from "./reducer/userSlice";
 import loadingSlice from "./reducer/loadingSlice";
 import modalSlice from "./reducer/modalSlice";
+import messageSlice from "./reducer/messageSlice";
 
 
 const rootReducer = combineReducers({
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     post: postSlice.reducer,
     user: userSlice.reducer,
     loading: loadingSlice.reducer,
-    modal: modalSlice.reducer
+    modal: modalSlice.reducer,
+    message: messageSlice.reducer
 });
 
 export const store = configureStore({ reducer: rootReducer });

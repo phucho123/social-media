@@ -9,6 +9,8 @@ import bodyParser from "body-parser";
 import router from "./routes/index.js";
 import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
+import { Server } from "socket.io";
+import { createServer } from "http";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -35,7 +37,34 @@ app.use(router);
 app.use('/assets', express.static(__dirname + '/assets'));
 
 
-app.listen(process.env.PORT || 8080, () => {
+const httpSever = createServer(app);
+const io = new Server(httpSever, {
+    cors: {
+        origin: process.env.CLIENT_URL,
+        methods: ["GET", "POST"]
+    }
+});
+
+
+io.on("connection", (socket) => {
+    console.log("user connected");
+    socket.on("disconnect", () => {
+        console.log(`user ${socket.id} disconnected`);
+    });
+    socket.on("send-message", (data) => {
+        socket.broadcast.emit(`to ${data.to}`, {
+            from: data.from,
+            message: data.message,
+            createdAt: data.createdAt
+        })
+        console.log(data);
+    })
+});
+
+// app.listen(process.env.PORT || 8080, () => {
+//     console.log("Sever is running");
+// })
+httpSever.listen(process.env.PORT || 8080, () => {
     console.log("Sever is running");
 })
 

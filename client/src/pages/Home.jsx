@@ -19,14 +19,17 @@ const Home = () => {
             case "notifications":
                 setTab("notification");
                 break;
-            default:
+            case "":
                 setTab("home");
+                break;
+            default:
+                setTab("");
                 break;
         }
     }, [location]);
 
     return (
-        <div className='w-full bg-[#f1f1f1] px-0 2xl:px-40 lg:rounded-lg h-screen overflow-hidden'>
+        <div className='w-full bg-[#f1f1f1] px-0 2xl:px-40 lg:rounded-lg h-screen overflow-y-hidden flex flex-col'>
             <TopBar setTab={setTab} tab={tab} />
             <Outlet />
         </div>

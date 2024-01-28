@@ -13,7 +13,7 @@ const TopBar = ({ setTab, tab }) => {
     const isMd = useMediaQuery('(min-width:1024px)'); //770
     const navigate = useNavigate();
     return (
-        <div className='sticky top-0 flex w-full bg-white items-center justify-between py-2 px-4 shadow-md'>
+        <div className='flex w-full bg-white items-center justify-between py-2 px-4 shadow-md'>
             {/* <Link to="/" replace>
                 <div className='flex gap-2 items-center'>
                     <div className='p-2 text-white rounded bg-blue-600 mt-0'>
@@ -54,7 +54,7 @@ const TopBar = ({ setTab, tab }) => {
                                     )
                                 }
                             </div>
-                            <div className='px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer'>
+                            <div className='px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer border-red-600 h-full'>
                                 {
                                     tab === "notification" ? (
                                         <IoMdNotifications size={30} className={`cursor-pointer text-blue-600`} />
@@ -72,7 +72,7 @@ const TopBar = ({ setTab, tab }) => {
             }
             <div className='w-[30%] flex gap-4 items-center text-ascent-1 text-md md:text-x justify-end'>
                 <div>
-                    {
+                    {/* {
                         isMd ? (
                             <CustomBtn
                                 label='Log Out'
@@ -85,7 +85,8 @@ const TopBar = ({ setTab, tab }) => {
                         ) : (
                             <CustomDrawer />
                         )
-                    }
+                    } */}
+                    <CustomDrawer />
 
                 </div>
             </div>

@@ -49,7 +49,6 @@ const HomeTab = () => {
                         user.friends.map((friend, index) => (
                             <FriendCard friendInfo={friend} key={index} />
                         ))
-
                     }
                 </div>
             </div>

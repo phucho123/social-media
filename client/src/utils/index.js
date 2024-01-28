@@ -1,4 +1,7 @@
 import axios from "axios";
+import { io } from 'socket.io-client';
+
+export const socket = io(process.env.REACT_APP_BACKEND_BASE_URL);
 
 export const uploadImage = async (image) => {
     const formData = new FormData();
@@ -31,3 +34,4 @@ export const deleteImage = async (data) => {
         console.log("errrrr")
     }
 }
+

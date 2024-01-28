@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { IoHome } from 'react-icons/io5';
 import { MdGroup } from 'react-icons/md';
 import { IoMdNotifications } from 'react-icons/io';
+import ChatIcon from '@mui/icons-material/Chat';
 
 export default function CustomDrawer() {
     const user = useSelector(state => state.user.user);
@@ -83,6 +84,16 @@ export default function CustomDrawer() {
                     </ListItemButton>
                 </ListItem>
                 <ListItem key={"5"} disablePadding>
+                    <ListItemButton onClick={() => {
+                        navigate(`/chat/null`);
+                    }}>
+                        <ListItemIcon>
+                            <ChatIcon style={{ color: "blue", fontSize: "2rem" }} />
+                        </ListItemIcon>
+                        <ListItemText primary={"Chat"} style={{ color: "blue" }} />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key={"6"} disablePadding>
                     <ListItemButton onClick={() => {
                         window.localStorage.removeItem("user");
                         navigate("/login");

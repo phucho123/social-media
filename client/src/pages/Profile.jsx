@@ -163,22 +163,22 @@ const Profile = () => {
     });
     const navigate = useNavigate();
     return (
-        user ? <div>
-            <div className='w-full flex min-h-screen flex-col items-center text-black bg-[#f1f1f1] pb-10'>
+        user ? <div className='overflow-y-auto h-full'>
+            <div className='w-full flex min-h-screen flex-col items-center text-black bg-[#f1f1f1] pb-20'>
                 <div className='w-full flex justify-center shadow-md bg-white'>
                     <div className='w-full lg:w-2/3 h-[100%]'>
                         <div className='w-full h-[32vh] rounded-b-lg text-red-400 overflow-hidden flex justify-center'>
-                            <Button style={{ position: "fixed", left: 10, top: 10, border: "2px solid blue", borderRadius: "25px" }}
+                            {/* <Button style={{ position: "fixed", left: 10, top: 10, border: "2px solid blue", borderRadius: "25px" }}
                                 onClick={() => {
                                     navigate(-1);
                                 }}>
                                 <ArrowBackIcon />
-                            </Button>
+                            </Button> */}
                             <img src={background} alt='404'
                                 className=" rounded-b-lg w-full" />
                         </div>
-                        <div className='w-full flex justify-center p-2 mt-[-10vh] relative cursor-pointer' onClick={handleOpenPopover} >
-                            <div className='rounded-full aspect-square w-1/3 sm:w-1/4 lg:w-1/6 bg-black flex justify-center items-center overflow-hidden' >
+                        <div className='w-full flex justify-center p-2 mt-[-10vh] relative'  >
+                            <div className='rounded-full aspect-square w-1/3 sm:w-1/4 lg:w-1/6 bg-black flex justify-center items-center overflow-hidden cursor-pointer' onClick={handleOpenPopover}>
                                 <img src={profileAvatar.preview ? profileAvatar.preview : avatar} alt="404" className={`rounded-full ${avatarTransform ? 'h-full' : 'w-full'}`} />
                             </div>
                         </div>

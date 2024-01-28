@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Chat from "./pages/Chat";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { api, apiRequest } from "./utils/api";
@@ -84,8 +85,10 @@ function App() {
               <Route path="/" element={<HomeTab />} />
               <Route path="friends" element={<FriendTab />} />
               <Route path="notifications" element={<NotificationTab />} />
+              <Route path='profile/:id' element={<Profile />} />
+              <Route path='chat/:id' element={<Chat />} />
             </Route>
-            <Route path='profile/:id' element={<Profile />} />
+            {/* <Route path='profile/:id' element={<Profile />} /> */}
           </Route>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
