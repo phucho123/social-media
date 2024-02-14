@@ -10,8 +10,9 @@ import Message from './Message'
 import { socket } from '../../utils'
 import { addMessage, setMessages } from '../../redux/reducer/messageSlice'
 import { apiRequest } from '../../utils/api'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const ChatWindow = () => {
+const ChatWindow = ({ open, setOpen }) => {
     const {
         register,
         formState: { errors },
@@ -122,13 +123,16 @@ const ChatWindow = () => {
 
     }
     return (
-        <div className='w-full'>
+        <div className={`${open ? "" : "hidden"} md:block w-full`}>
             {
                 id != "null" &&
                 <div className='w-full flex-col h-full relative border'>
-                    <div className='bg-white px-4 shadow-md'>
-                        <div className={`flex w-full items-center gap-2 justify-start px-2 py-2 cursor-pointer`}>
-                            <div className='flex items-center gap-2'>
+                    <div className='bg-white shadow-md'>
+                        <div className={`flex w-full items-center gap-2 justify-start py-2 cursor-pointer`}>
+                            <div className='flex items-center gap-2 ml-2'>
+                                <div className='flex items-center justify-center lg:hidden' onClick={() => setOpen(false)}>
+                                    <ArrowBackIcon style={{ marginRight: 10 }} />
+                                </div>
                                 <img src={chatHeaderInfo.current?.profileUrl ? chatHeaderInfo.current?.profileUrl : avatar} alt="404" className='object-cover aspect-square w-14 rounded-full flex' />
                                 <p className='text-lg font-semibold'>{chatHeaderInfo.current?.firstName + " " + chatHeaderInfo.current?.lastName}</p>
                             </div>
